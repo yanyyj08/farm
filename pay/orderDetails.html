@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>付款</title>
+    <link rel="stylesheet" href="../css/pages.css?v=2017020201" />
+    <script src="../js/jquery-2.2.1.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/common.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="javascript:;" class="btn-back"></a>
+            <h3>订单详情</h3>
+        </div>
+        <div class="content">
+            <div class="order-confirm">
+                <input type="hidden" id="sequenceNo" name="sequenceNo">
+                <div class="p01">
+                    <input type="hidden" id="shippingAddress">
+                    <a href="javascript:;">
+                        <i class="icon-address-01"></i>
+                        <i></i>
+                        <p>
+                            <span>收货人：<em id="addressName"></em></span>
+                            <span>联系方式：<em id="addressPhone"></em></span>
+                        </p>
+                        <p id="addressDetails">
+                        </p>
+                    </a>
+                </div>
+                <div class="p02">
+                    <ul id="orderProductList"></ul>
+                </div>
+                <div class="p04">
+                    <div>
+                        <em>商品总价</em>
+                        <span>¥<i id="consumAmount"></i></span>
+                    </div>
+                    <div>
+                        <em>优惠金额</em>
+                        <span>¥<i id="consumDiscount"></i></span>
+                    </div>
+                    <div>
+                        <em>运费(快递)</em>
+                        <span>¥<i id="expressCharge"></i></span>
+                    </div>
+                    <div>
+                        <em>订单总价</em>
+                        <span>¥<i id="amount"></i></span>
+                    </div>
+                </div>
+                <div class="p05">
+                    <div>
+                        <em>订单编号:</em>
+                        <span id="orderNo"></span>
+                    </div>
+                    <div>
+                        <em>创建时间:</em>
+                        <span id="tradeDate"></span>
+                    </div>
+                    <div>
+                        <em>付款时间:</em>
+                        <span id="paymentTime"></span>
+                    </div>
+                    <div>
+                        <em>发货时间:</em>
+                        <span id="expressTime"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="overlay"></div>
+        <div class="alert-group">
+            <div class="l01 .alert-msg">这里是文字</div>
+            <div class="l02">
+                <a class="alert-confirm" href="javascript:;">确认</a>
+                <a class="alert-cancel" href="javascript:;">取消</a>
+            </div>
+        </div> -->
+        <div class="footer footer-sty06">
+            <ul class="clearfix">
+                <li id="payOrder">付款</li>
+                <li id="cancelOrder" class="disabled">取消订单</li>
+            </ul>
+        </div>
+    </div>
+    <script src="../js/pages.js?v=2017020201?"></script>
+    <script>
+        toGetOrderDetails();
+    </script>
+</body>
+
+</html>

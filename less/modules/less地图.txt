@@ -1,0 +1,28 @@
+less地图
+
+
+less文件分成两类  
+	
+	主文件 （包含组件代码以及页面代码，由此生成对应的css文件）
+		index.less （仅在首页调用）
+		account.less （仅在会员中心调用）
+		pages.less （除首页、会员中心的其他所有页面）
+
+	模块文件 （涵所有的部件，变量，底层调用等，可根据实际情况灵活配置）
+
+
+		base.less		css初始化
+		variables.less	底层变量
+
+		header.less		网站头部样式
+		footer.less		网站底部样式
+
+		animate.less    动画效果
+		fonts.less		特殊字体、图标调用
+		icons.less		图标调用
+
+		button.less		按钮
+		dropdowns.less	下拉效果
+		list.less		列表
+		modals.less		弹层样式
+		tables.less		表格样式

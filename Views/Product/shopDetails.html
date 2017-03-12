@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>店铺详情</title>
+    <link rel="stylesheet" href="../../css/pages.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=863048b934c91fb41a1a76bcee32feb5&callback=init"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="javascript:;" class="btn-back"></a>
+            <h3 id="orgName"></h3>
+        </div>
+        <div class="content org-details">
+            <div class="carousel">
+                <img id="orgImg" style="display: block; width: 100%; height: 100%;" src="" alt="">
+            </div>
+            <ul class="tab tabs tab-sty03 clearfix">
+                <li class="active">店铺详情</li>
+                <li>全部农产品</li>
+                <li>农田信息</li>
+            </ul>
+            <div class="tab-panel-group">
+                <div class="tab-panel">
+                    <div class="org-description" id="orgDescription">
+                        
+                    </div>
+                </div>
+                <div class="tab-panel" style="display: none;">
+                    <ul id="productList" data-page="0"></ul>
+                    <div class="load-list" id="loadProduct" data-status="0">
+                        <span>点击加载更多数据</span>
+                    </div>
+                </div>
+                <div class="tab-panel" id="orgMap" style="display: none;">
+
+                </div>
+            </div>
+        </div>
+        <div class="footer footer-sty02">
+            <ul class="clearfix">
+                <li><a href="../../index.html"><i class="icon-index-02"></i><span>首页</span></a></li>
+                <li><a href="javascript:;" id="collectOrgBtn"><i></i><span>收藏</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="../../js/pages.js?v=2017020201"></script>
+    <script>
+        toGetProductList(1);
+        toGetOrgDetails();
+        toGetOrgLoc();
+    </script>
+</body>
+
+</html>

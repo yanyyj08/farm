@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>呱呱良田</title>
+    <link rel="stylesheet" href="css/pages.css?v=2017020201" />
+    <script src="js/jquery-2.2.1.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/jquery.touchSlider.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a class="icon-index" href="./Introduce/index.html"></a>
+            <h3>呱呱良田</h3>
+        </div>
+        <div class="content">
+            <div class="carousel" id="carousel">
+                <div class="carousel-main" id="carouselMain">
+                    <ul>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="img/temporary-slider.png" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="img/temporary-slider.png" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="img/temporary-slider.png" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="javascript:;" id="btnPrev"></a>
+                    <a href="javascript:;" id="btnNext"></a>
+                </div>
+                <div class="carousel-icon clearfix" id="carouselIcon">
+                    <a class="current" href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+            <ul class="tab tab-sty01 clearfix">
+                <li class="arrow product-filter" id="cityFilter"><p>城市<i></i></p>
+                    <div style="display: none;">
+                        <ul class="clearfix" id="provinceList">
+                        </ul>
+                        <ul class="clearfix" id="cityList" style="display: none;">
+                        </ul>
+                    </div>
+                </li>
+                <li id="showOrg" data-status="0">门店</li>
+                <li class="product-filter" id="salesFilter">销量</li>
+                <li class="arrow product-filter" id="categoryFilter"><p>类别<i></i></p>
+                    <div style="display: none;">
+                        <ul class="clearfix" id="categoryList">
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <div class="tab-panel-group">
+                <div class="tab-panel" id="productPanel">
+                    <ul id="productList" data-page="0">
+                        <!-- <li class="list-sty01">
+                            <a href="javascript:;">
+                                <img src="../img/temporary-goods.png" alt="" />
+                                <h3>
+                                    <i class="icon-superfine"></i>
+                                    <span>安心睡牛奶 1瓶装 5000ml</span>
+                                    <em class="icon-new"></em>
+                                </h3>
+                                <p>
+                                    <i class="icon-full"></i>
+                                    <span>满20减5元 满40减12元</span>
+                                </p>
+                                <p>
+                                    <i class="icon-grab"></i>
+                                    <span>买二瓶送一瓶</span>
+                                </p>
+                                <h4>
+                                    <span>¥<i>18.80</i></span>
+                                    <b>¥28.80</b>
+                                    <em>月售10000单</em>
+                                </h4>
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="load-list" id="loadProduct" data-status="0">
+                        <!-- <i class="icon-load"></i><span>加载中...</span> -->
+                        <span>点击加载更多数据</span>
+                    </div>
+                </div>
+                <div class="tab-panel" id="orgPanel" style="display: none;">
+                    <ul id="orgList" data-page="0">
+                        <!-- <li class="list-sty02">
+                            <a href="javascript:;">
+                                <div class="first-line">
+                                    <img src="img/temporary-logo.png" alt="">
+                                    <h3><span>安心奶制品专营店</span><i class="icon-superfine"></i></h3>
+                                    <em class="icon-new"></em>
+                                </div>
+                                <div class="second-line">
+                                    <h4>店铺活动：</h4>
+                                    <p><i class="icon-full"></i><span>满20减5元 满40减12元</span></p>
+                                    <p><i class="icon-grab"></i><span>买二送一</span></p>
+                                </div>
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="load-list" id="loadOrg" data-status="0">
+                        <!-- <i class="icon-load"></i><span>加载中...</span> -->
+                        <span>点击加载更多数据</span>
+                    </div>
+                </div>
+                <div class="panel-overlay" style="display: none;"></div>
+            </div>
+        </div>
+        <div class="footer footer-sty01">
+            <ul class="clearfix">
+                <li><a href="./"><i class="icon-index-01"></i><span>首页</span></a></li>
+                <li><a href="./Views/Order/shopCart.html"><i class="icon-cart"></i><span>购物车</span></a></li>
+                <li><a href="./Views/User/index.html"><i class="icon-my"></i><span>我的</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="js/common.js?data=1"></script>
+    <script src="js/pages.js?v=2017020201"></script>
+    <script>
+    toDefaultSlider();
+    toGetProductList();
+    toGetProvinceList();
+    toGetCategoryList();
+    toGetOrgList();
+    </script>
+</body>
+
+</html>

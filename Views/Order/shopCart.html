@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>购物车</title>
+    <link rel="stylesheet" href="../../css/pages.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="javascript:;" class="btn-back"></a>
+            <h3>购物车</h3>
+            <span id="emptyShopCart">清空购物车</span>
+        </div>
+        <div class="content">
+            <div id="shopCartList">
+                <div class="shop-cart">
+                    <ul>
+                    <!-- <li class="list-sty03">
+                        <div class="left">
+                            <img src="../../img/temporary-goods.png" alt="">
+                            <h3><a href="javascript:;">这里是名字吧啦吧啦</a></h3>
+                            <h4><i>¥</i>18.80</h4>
+                            <div class="num-ctr">
+                                <i class="reduce"></i>
+                                <input type="text">
+                                <i class="add disabled"></i>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <i class="icon-delete-01"></i>
+                        </div>
+                    </li> -->
+                    </ul>
+                </div>
+            </div>
+            <div id="shopCartEditor" style="display: none;"></div>
+        </div>
+        <div class="footer footer-sty04">
+            <i id="chooseAllProduct"></i>
+            <ul class="clearfix">
+                <li>合计：<i>¥<b id="totalCount">0</b></i><span>(不含快递)</span></li>
+                <li id="settleAccounts" class="disabled">结算(<em id="totalNum">0</em>)</li>
+            </ul>
+        </div>
+    </div>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/pages.js?v=2017020201"></script>
+    <script>
+        toGetShopCart();
+    </script>
+</body>
+
+</html>

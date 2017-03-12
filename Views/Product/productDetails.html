@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>产品详情</title>
+    <link rel="stylesheet" href="../../css/pages.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/jquery.touchSlider.js"></script>
+    <script src="../../js/echarts.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="javascript:;" class="btn-back"></a>
+            <h3 id="orgName"></h3>
+        </div>
+        <div class="content">
+            <input type="hidden" name="skuNo" id="skuNo">
+            <input type="hidden" name="skuName" id="skuName">
+            <input type="hidden" name="orgNo" id="orgNo">
+            <input type="hidden" name="productNo" id="productNo">
+            <div class="carousel" id="carousel">
+                <div class="carousel-main" id="carouselMain">
+                    <ul>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="../../img/temporary-slider.png" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="../../img/temporary-slider.png" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="../../img/temporary-slider.png" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="javascript:;" id="btnPrev"></a>
+                    <a href="javascript:;" id="btnNext"></a>
+                </div>
+                <div class="carousel-icon clearfix" id="carouselIcon">
+                    <a class="current" href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+            <ul class="tab tab-sty01 clearfix" id="productDetailsTab">
+                <li><a id="shopHref" href="shopDetails.html?orgNo=">店铺首页</a></li>
+                <li class="active" data-href="#p01">基本信息</li>
+                <li data-href="#p04">商品详情</li>
+                <li data-href="#p05">评价</li>
+            </ul>
+            <div class="product-details">
+                <div class="p01" id="p01">
+                    <h3>
+                        <i class="icon-superfine"></i>
+                        <span id="productName"></span>
+                        <em class="icon-new" style="display: none;"></em>
+                    </h3>
+                    <h4 id="salePrice"><i>¥</i></h4>
+                    <p>
+                        <span>原价：<b id="marketPrice"></b></span>
+                        <span>月售：<i id="saleCount"></i>单</span>
+                    </p>
+                    <p>
+                        <span>快递费：<i>0.00</i></span>
+                        <span>发货地：<i>上海</i></span>
+                    </p>
+                </div>
+                <div class="p02" style="display: none;">
+                    <p>
+                        <i class="icon-full"></i>
+                        <span>满20减5</span>
+                    </p>
+                    <p>
+                        <i class="icon-grab"></i>
+                        <span>买二瓶送一瓶</span>
+                    </p>
+                </div>
+                <div class="p03" id="chooseStandard">
+                    选择：规格
+                    <i class="icon-more"></i>
+                </div>
+                <div class="p04" id="p04">
+                    <div class="l01">
+                        <h3 class="title">商品详情</h3>
+                        <div>
+                            <table>
+                                <tbody id="productInfo">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="productDetails"></div>
+                    </div>
+                    <div class="l02">
+                        <h3 class="title">检测报告</h3>
+                        <div>
+                            <div class="rader" id="rader"></div>    
+                            <ul class="clearfix rader-list" id="raderList">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="p05" id="p05">
+                    <h3 class="title">评价(<i>9483</i>)</h3>
+                    <ul class="clearfix">
+                        <li>口感浓厚(1000)</li>
+                        <li>口感浓厚fadsfa(1000)</li>
+                        <li>口感浓厚dfas(1000)</li>
+                        <li>口感浓厚dfad(1000)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="product-standard" id="productStandard">
+            <div class="p01">
+                <div class="left"><img id="productImg" src="" alt=""></div>
+                <div class="right">
+                    <h4 id="skuPrice">¥1111</h4>
+                    <p id="stock">库存</p>
+                    <p id="chooseSku">请选择：规格</p>
+                </div>
+                <a class="icon-close" href="javascript:;"></a>
+            </div>
+            <div class="p02">
+                <p>规格</p>
+                <ul class="clearfix" id="productSku"></ul>
+            </div>
+            <div class="p03">
+                <div class="num-ctr" data-min="1" data-max="100">
+                    <a href="javascript:;" class="reduce disabled"></a>
+                    <input type="text" name="number" id="number" value="1">
+                    <a href="javascript:;" class="add"></a>
+                </div>
+            </div>
+            <div class="p04 footer">
+                <ul class="clearfix" id="cartOrBuy">
+                    <li class="cart-btn">加入购物车</li>
+                    <li class="buy-btn">立即购买</li>
+                </ul>
+                <div class="cart-btn" id="addShopCart" style="display: none;">
+                    加入购物车
+                </div>
+                <div class="buy-btn" id="buyNow" style="display: none;">
+                    立即购买
+                </div>
+            </div>
+        </div>
+        <div class="footer footer-sty03">
+            <ul class="clearfix">
+                <li><a href="../../index.html"><i class="icon-index-02"></i><span>首页</span></a></li>
+                <li id="collectProductBtn"><i></i><span>收藏</span></li>
+                <li id="addShopCartBtn"><i class="icon-cart"></i><span>加入购物车</span></li>
+                <li id="buyNowBtn">立即购买</li>
+            </ul>
+        </div>
+    </div>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/pages.js?v=2017020201"></script>
+    <script>
+    var productNo = toGetParameter('productNo');
+    toDefaultSlider();
+    toGetProductDetails(productNo);
+    toGetProductSku(productNo);
+    </script>
+</body>
+
+</html>

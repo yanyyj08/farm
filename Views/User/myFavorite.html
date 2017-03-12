@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>我的收藏</title>
+    <link rel="stylesheet" href="../../css/pages.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="javascript:;" class="btn-back"></a>
+            <h3>我的收藏</h3>
+        </div>
+        <div class="content">
+            <ul class="tab tabs tab-sty02 clearfix" style="margin-top: 2px;">
+                <!-- <li class="active">全部收藏(<em id="favoriteAll"></em>)</li> -->
+                <li>店铺收藏(<em id="favoriteShop"></em>)</li>
+                <li>商品收藏(<em id="favoriteProduct"></em>)</li>
+            </ul>
+            <div class="tab-panel-group">
+                <!-- <div class="tab-panel">
+                    <ul class="favorite-list" id="favoriteAllList">
+                    </ul>
+                </div> -->
+                <div class="tab-panel">
+                    <ul class="favorite-list" id="favoriteShopList">
+                        <!-- <li class="list-sty02">
+                            <a href="javascript:;">
+                                <div class="first-line">
+                                    <img src="../../img/temporary-logo.png" alt="">
+                                    <h3><span>安心奶制品专营店</span><i class="icon-superfine"></i></h3>
+                                    <em class="icon-new"></em>
+                                </div>
+                                <div class="second-line">
+                                    <h4>店铺活动：</h4>
+                                    <p><i class="icon-full"></i><span>满20减5元 满40减12元</span></p>
+                                    <p><i class="icon-grab"></i><span>买二送一</span></p>
+                                </div>
+                            </a>
+                            <div class="right">
+                                <i class="icon-delete-01"></i>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="tab-panel">
+                    <ul class="favorite-list" id="favoriteProductList">
+                        <!-- <li class="list-sty01">
+                            <a href="javascript:;">
+                                <img src="../../img/temporary-goods.png" alt="" />
+                                <h3>
+                                    <i class="icon-superfine"></i>
+                                    <span>安心睡牛奶 1瓶装 5000ml</span>
+                                </h3>
+                                <p>
+                                    <i class="icon-full"></i>
+                                    <span>满20减5元 满40减12元</span>
+                                </p>
+                                <p>
+                                    <i class="icon-grab"></i>
+                                    <span>买二瓶送一瓶</span>
+                                </p>
+                                <h4>
+                                    <span>¥<i>18.80</i></span>
+                                    <b>¥28.80</b>
+                                </h4>
+                            </a>
+                            <div class="right">
+                                <i class="icon-delete-01"></i>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer footer-sty01">
+            <ul class="clearfix">
+                <li><a href="../../index.html"><i class="icon-index-01"></i><span>首页</span></a></li>
+                <li><a href="../Order/shopCart.html"><i class="icon-cart"></i><span>购物车</span></a></li>
+                <li><a href="index.html"><i class="icon-my"></i><span>我的</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="../../js/pages.js?v=2017020201"></script>
+    <script>
+        toIndexTab(toGetParameter('favorite'));
+        toGetFavoriteList(1);
+        toGetFavoriteList(2);
+    </script>
+</body>
+
+</html>
