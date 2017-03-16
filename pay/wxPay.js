@@ -49,13 +49,13 @@ var toPay = function() {
 var payOrdrSuccess = function(data) {
     console.log(data)
     data = JSON.parse(data);
-    appId = data.paymentParameters.appId;
+    appId = data.paymentParameters.appid;
     // prepayId = data.paymentParameters.prepay_id;
-    nonceStr = data.paymentParameters.nonceStr;
-    paySign = data.paymentParameters.paySign;
+    nonceStr = data.paymentParameters.noncestr;
+    paySign = data.paymentParameters.paysign;
     package = data.paymentParameters.package;
-    timeStamp = String(data.paymentParameters.timeStamp);
-    console.log(package)
+    timeStamp = data.paymentParameters.timestamp;
+    console.log(appId)
     toPay();
 };
 
