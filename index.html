@@ -70,7 +70,7 @@
                 </li>
             </ul>
             <div class="tab-panel-group">
-                <div class="tab-panel" id="productPanel">
+                <div class="tab-panel load-module" id="productPanel">
                     <ul id="productList" data-page="0">
                         <!-- <li class="list-sty01">
                             <a href="javascript:;">
@@ -101,7 +101,7 @@
                         <span>点击加载更多数据</span>
                     </div>
                 </div>
-                <div class="tab-panel" id="orgPanel" style="display: none;">
+                <div class="tab-panel load-module" id="orgPanel" style="display: none;">
                     <ul id="orgList" data-page="0">
                         <!-- <li class="list-sty02">
                             <a href="javascript:;">
@@ -137,11 +137,13 @@
     <script src="js/common.js?data=1"></script>
     <script src="js/pages.js?v=2017020201"></script>
     <script>
-    toDefaultSlider();
-    toGetProductList();
-    toGetProvinceList();
-    toGetCategoryList();
-    toGetOrgList();
+    $(function() {
+        toDefaultSlider();
+        toGetProductList();
+        toGetProvinceList();
+        toGetCategoryList();
+        toGetOrgList();
+    });
     </script>
 </body>
 

@@ -1,3 +1,4 @@
+// 时间格式化
 Date.prototype.Format = function(fmt) { //author: meizz   
     var o = {
         "M+": this.getMonth() + 1, //月份   
@@ -16,6 +17,7 @@ Date.prototype.Format = function(fmt) { //author: meizz
     return fmt;
 }
 
+// 轮播
 var toDefaultSlider = function() {
     $dragBln = false;
     $('#carouselMain').touchSlider({
@@ -66,26 +68,6 @@ var toGetParameter = function(name) {
 };
 
 // 小黑框
-// function msgAlert(type,msg) {
-//     $('.msg_'+type).html(msg);
-//     $('.msg_'+type).animate({'top': 0},500);
-//     setTimeout(function(){$('.msg_'+type).animate({'top': '-3rem'},500)},2000);
-// }
-
-// $(document).ready(function(){
-//     var htmlstyle = "<style>body{padding:0;margin:0;}.msg{color:#FFF;width:100%;height:3rem;text-align:center;font-size:1.2rem;line-height:3rem;position:fixed;top:-3rem;z-index:20;}"
-//     +".msg_success{background-color:#1fcc6c;}"
-//     +".msg_warning{background-color:#e94b35;}"
-//     +".msg_primary{background-color:#337ab7;}"
-//     +".msg_info{background-color:#5bc0de;}</style>";
-// $('head').append(htmlstyle);
-//     $('body').prepend('<div class="msg msg_success"></div>'
-//         +'<div class="msg msg_warning"></div>'
-//         +'<div class="msg msg_primary"></div>'
-//         +'<div class="msg msg_info"></div>');
-// });
-
-
 var alertMsg = function(msg) {
     $('.msg').html(msg);
     $('.msg').fadeIn();
@@ -150,3 +132,5 @@ var toDoAjax = function(param, type, url, callBack, callBackData) {
 
     xhr.send(data);
 };
+
+// 分页

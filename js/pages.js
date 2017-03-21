@@ -83,6 +83,7 @@ $('body').on('click', '.add', function(e) {
         }
     }
 });
+
 $('.tabs').on('click', 'li', function() {
     $(this).addClass('active').siblings().removeClass('active');
     $('.tab-panel').eq($(this).index()).show().siblings().hide();
@@ -1345,8 +1346,8 @@ var toGetOrder = function(orderStatus) {
 			var btnHtml = '';
 			switch(orderStatus) {
 				case 1: btnHtml = '<h4><a class="cancel-order" href="javascript:;">取消订单</a><a class="pay-order" href="javascript:;">付款</a></h4>'; break;
-				case 4: btnHtml = '<h4><a class="" href="javascript:;">待收货</a></h4>'; break;
-				case 5: btnHtml = '<h4><a class="comment-order" href="javascript:;">评价</a></h4>'; break;
+				case 3: btnHtml = '<h4><a class="" href="javascript:;">待收货</a></h4>'; break;
+				case 6: btnHtml = '<h4><a class="comment-order" href="javascript:;">评价</a></h4>'; break;
 			}
 			orderListHtml += '<li class="list-sty05" data-href="' + value.order.sequenceNo + '">'
                            + '    <h3>'
@@ -1382,6 +1383,11 @@ $('#orderList').on('click', '.cancel-order', function() {
 		alertMsg('订单取消成功');
 		$li.remove();
 	});
+});
+
+$('#orderList').on('click', '.comment-order', function() {
+	var $li = $(this).parents('li');
+	window.location.href = 'orderComment.html?id=' + $li.attr('data-href');
 });
 
 $('#payOrder').click(function() {
