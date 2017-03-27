@@ -75,8 +75,12 @@
                         <span>月售：<i id="saleCount"></i>单</span>
                     </p>
                     <p>
-                        <span>快递费：<i>0.00</i></span>
-                        <span>发货地：<i>上海</i></span>
+                        <span>快递费：<i id="expressCharge">0.00</i></span>
+                        <!-- <span>发货地：<i>上海</i></span> -->
+                    </p>
+                    <p>
+                        <span>种植面积：<i id="landArea"></i>亩</span>
+                        <span>预估产量：<i></i>公斤/亩</span>
                     </p>
                 </div>
                 <div class="p02" style="display: none;">
@@ -174,6 +178,7 @@
     var productNo = toGetParameter('productNo');
     toDefaultSlider();
     toGetProductDetails(productNo);
+    toGetProductComment(productNo);
     toGetProductSku(productNo);
     </script>
 </body>

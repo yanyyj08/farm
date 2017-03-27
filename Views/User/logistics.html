@@ -9,22 +9,30 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="email=no" name="format-detection">
     <meta http-equiv="Cache-Control" content="max-age=14400">
-    <title>待收货</title>
+    <title>查看物流</title>
     <link rel="stylesheet" href="../../css/pages.css?v=2017020201" />
     <script src="../../js/jquery-2.2.1.js"></script>
-    <script src="../../js/jquery.cookie.js"></script>
 </head>
 
 <body>
     <div class="wrapper">
         <div class="header">
             <a href="javascript:;" class="btn-back"></a>
-            <h3>待收货</h3>
+            <h3>查看物流</h3>
         </div>
-        <div class="content">
-            <ul style="margin-top: 5px;" id="orderList">
-                
-            </ul>
+        <div class="content logistics-details">
+            <div class="p01 clearfix">
+                <ul>
+                    <li class="clearfix"><em>物流状态:</em><span id="logisticState"></span></li>
+                    <li class="clearfix"><em>承运来源：</em><span id="expressCorpName"></span></li>
+                    <li class="clearfix"><em>运单编号：</em><span id="mailNo"></span></li>
+                    <li class="clearfix"><em>官方电话：</em><span id="expressCorpTel"></span></li>
+                </ul>
+            </div>
+            <div class="p02">
+                <ul id="logisticsDetails">
+                </ul>
+            </div>
         </div>
         <div class="footer footer-sty01">
             <ul class="clearfix">
@@ -35,9 +43,9 @@
         </div>
     </div>
     <script src="../../js/common.js"></script>
-    <script src="../../js/pages.js?v=2017020201"></script>
+    <script src="../../js/pages.js"></script>
     <script>
-        toGetOrder(5);
+        toGetLogisticsInfo();
     </script>
 </body>
 

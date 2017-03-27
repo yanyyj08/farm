@@ -71,13 +71,24 @@
 }
 
 
-.footer-sty05 { color: #fff; font-size: 14px; text-align: center; background-color: @base-color-red; }
+.footer-sty05 { position: absolute; width: 100%; height: 50px; background-color: #fff;
+    > div { line-height: 50px; font-size: 12px; padding-left: 10px;
+        > i { .icon-choose-on; }
+        &.off {
+            > i { .icon-choose-off; }
+        }
+    }
+    > a { position: absolute; right: 0; top: 0; width: 120px; text-align: center; font-size: 14px; color: #fff; background-color: @base-color-red; }
+}
 
 
 .footer-sty06 { border-top: 1px solid @border-color; background-color: #fff;
-    > ul { position: relative; 
+    > ul { position: relative; display: none;
         > li { position: relative; top: 11px; float: right; margin-right: 10px; width: 80px; height: 26px; line-height: 26px; color: @base-color; font-size: 12px; text-align: center; border: 1px solid @base-color; border-radius: 4px;
-            &.disabled { color: @font-lighter-color; border-color: #e0e0e0; }
+            > a { color: @base-color; }
+            &.disabled { color: @font-lighter-color; border-color: #e0e0e0;
+                > a { color: @font-lighter-color; }
+            }
         }
     }
 }

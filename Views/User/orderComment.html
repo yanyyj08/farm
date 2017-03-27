@@ -23,23 +23,18 @@
         </div>
         <div class="content">
             <div class="order-comment">
-                <input type="hidden" id="describe">
-                <input type="hidden" id="seller">
-                <input type="hidden" id="logistic">
+                <input type="hidden" id="describe" name="describe">
+                <input type="hidden" id="sellerAttitude" name="sellerAttitude">
+                <input type="hidden" id="logistic" name="logistic">
+                <input type="hidden" id="orgNo" name="orgNo">
                 <div class="p01">
-                    <div class="list-sty04">
-                        <img src="../../img/temporary-goods.png" alt="">
-                        <h3><a href="javascript:;">这里是名字吧啦吧啦</a></h3>
-                        <h5>(此商品性质不支持7天退货)</h5>
-                        <h4><i>¥</i>18.80</h4>
-                        <p>数量：1</p>
-                    </div>
+                    <ul id="commentList"></ul>
                 </div>
                 <div class="p02">
                     <div>
                         <em>描述相符</em>
                         <ul class="clearfix stars" data-id="#describe">
-                            <li class="on"></li>
+                            <li></li>
                             <li></li>
                             <li></li>
                             <li></li>
@@ -48,8 +43,8 @@
                     </div>
                     <div>
                         <em>卖家服务</em>
-                        <ul class="clearfix stars" data-id="#seller">
-                            <li class="on"></li>
+                        <ul class="clearfix stars" data-id="#sellerAttitude">
+                            <li></li>
                             <li></li>
                             <li></li>
                             <li></li>
@@ -59,7 +54,7 @@
                     <div>
                         <em>物流服务</em>
                         <ul class="clearfix stars" data-id="#logistic">
-                            <li class="on"></li>
+                            <li></li>
                             <li></li>
                             <li></li>
                             <li></li>
@@ -67,17 +62,22 @@
                         </ul>
                     </div>
                 </div>
-                <div class="p03">
-                    <textarea name="" id="" placeholder="分享你的心得"></textarea>
-                </div>
             </div>
         </div>
         <div class="footer footer-sty05">
-            发布评价
+            <div id="chooseAnonymous">
+                <input type="hidden" id="isAnonymous" name="isAnonymous" value="0">
+                <i></i>
+                <span>匿名评价</span>
+            </div>
+            <a href="javascript:;" id="confirmComment">评价</a>
         </div>
     </div>
     <script src="../../js/common.js"></script>
     <script src="../../js/pages.js"></script>
+    <script>
+        toGetCommentList();
+    </script>
 </body>
 
 </html>

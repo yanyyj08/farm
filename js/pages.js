@@ -186,15 +186,21 @@ $('#loadOrg').click(function() {
 
 var toGetProductList = function() {
 	toChangeLoadStatus(0, $('#loadProduct'));
-	var regionId = $('#productList').attr('data-regionId');
+	var regionId = $('#productList').attr('data-regionid');
 	var category = $('#productList').attr('data-category');
+	var filter = '';
+	switch ($('#salesFilter').attr('data-status')) {
+		case '0': filter = ''; break;
+		case '1': filter = '?OrderBy=SaleCount,DESC';break;
+		case '2': filter = '?OrderBy=SaleCount,ASC';break;
+	}
 	var orgNo = toGetParameter('orgNo');
 	var pageNo = Number($('#productList').attr('data-page')) + 1;
 	var pageSize = 20;
 	var urlDetails = arguments.length > 0 ? '.' : './Views/Product'
 	$('#productList').attr('data-page', pageNo);
     var settings = {
-        url: apiUrl + 'Basis/Products/',
+        url: apiUrl + 'Basis/Products/' + filter,
         cache: false,
         type: 'GET',
         dataType: 'json',
@@ -202,7 +208,7 @@ var toGetProductList = function() {
         	OnSale: 1,
         	PageNo: pageNo,
         	PageSize: pageSize,
-        	regionId: regionId,
+        	region: regionId,
         	category: category,
         	orgNo: orgNo,
         	opt: 1,
@@ -224,14 +230,14 @@ var toGetProductList = function() {
                          + '            <span>' + value.productName + '</span>'
                          + '            <em class="icon-new"></em>'
                          + '        </h3>'
-                         + '        <p>'
-                         + '            <i class="icon-full"></i>'
-                         + '            <span>满20减5元 满40减12元</span>'
-                         + '        </p>'
-                         + '        <p>'
-                         + '            <i class="icon-grab"></i>'
-                         + '            <span>买二瓶送一瓶</span>'
-                         + '        </p>'
+                         // + '        <p>'
+                         // + '            <i class="icon-full"></i>'
+                         // + '            <span>满20减5元 满40减12元</span>'
+                         // + '        </p>'
+                         // + '        <p>'
+                         // + '            <i class="icon-grab"></i>'
+                         // + '            <span>买二瓶送一瓶</span>'
+                         // + '        </p>'
                          + '        <h4>'
                          + '            <span>¥<i>' + value.salePrice + '</i></span>'
                          + '            <b>¥' + value.marketPrice + '</b>'
@@ -240,7 +246,7 @@ var toGetProductList = function() {
                          + '    </a>'
                          + '</li>';
         });
-        $('#productList').append(productHtml);
+        pageNo = 1 ? $('#productList').html(productHtml) : $('#productList').append(productHtml);;
         if (data.length < pageSize) {
 	        toChangeLoadStatus(2, $('#loadProduct'));
         } else {
@@ -343,13 +349,15 @@ var toGetCategoryList = function() {
 };
 
 $('#provinceList').on('click', 'li', function() {
-	toSetIndexListParameter($('#productList'), [{name: 'data-regionId', value: $(this).attr('data-id')}]);
-	toSetIndexListParameter($('#orgList'), [{name: 'data-regionId', value: $(this).attr('data-id')}]);
+	$(this).addClass('active').siblings().removeClass('active');
+	toSetIndexListParameter($('#productList'), [{name: 'data-regionid', value: $(this).attr('data-id')}]);
+	toSetIndexListParameter($('#orgList'), [{name: 'data-regionid', value: $(this).attr('data-id')}]);
 	toGetProductList();
 	toGetOrgList();
 });
 
 $('#categoryList').on('click', 'li', function() {
+	$(this).addClass('active').siblings().removeClass('active');
 	toSetIndexListParameter($('#productList'), [{name: 'data-category', value: $(this).attr('data-category')}]);
 	toGetProductList();
 	toChangeIndexList(0);
@@ -357,7 +365,13 @@ $('#categoryList').on('click', 'li', function() {
 
 $('#salesFilter').click(function() {
     $('.panel-overlay').hide();
+    $('#productList').attr('data-page', 0);
 	$('.product-filter div').slideUp(150).attr('data-show', '0');
+	switch ($(this).attr('data-status')) {
+		case '0': $('#salesFilter').attr('data-status', 1); break;
+		case '1': $('#salesFilter').attr('data-status', 2); break;
+		case '2': $('#salesFilter').attr('data-status', 1); break;
+	}
 	toGetProductList();
 	toChangeIndexList(0);
 });
@@ -493,6 +507,8 @@ var toGetProductDetails = function(productNo) {
 				               + '</tr>';
 			}
 		});
+		var expressCharge = data.product.expressCharg;
+		expressCharge = expressCharge ? expressCharge.toFixed(2) : '包邮';
 		$('#productName').html(data.product.productName);
 		$('#productDetails').html(data.page.detail);
 		$('#shopHref').attr('href', $('#shopHref').attr('href') + data.org.orgNo);
@@ -500,6 +516,9 @@ var toGetProductDetails = function(productNo) {
 		$('#marketPrice').html('¥' + data.product.marketPrice);
 		$('#salePrice').html('<i>¥</i>' + data.product.salePrice);
 		$('#skuPrice').html('<i>¥</i>' + data.product.salePrice);
+		$('#landArea').html(data.product.landArea);
+		$('#expressCharge').html(expressCharge);
+		$('#roughYield').html(data.product.roughYield);
 		var stock = data.product.stockQty ? data.product.stockQty : '9999';
 		$('#stock').html('库存：' + stock);
 		$('#orgNo').val(data.product.orgNo);
@@ -541,6 +560,9 @@ $('#productSku').on('click', 'li', function() {
 	$('#skuName').val($(this).html());
 	$('#skuPrice').html('¥' + $(this).attr('data-price'));
 	$('#stock').html('库存： ' + $(this).attr('data-stock'));
+	if ($(this).attr('data-imgsrc') != '0') {
+		$('#productImg').attr('src', imgUrl + $(this).attr('data-imgsrc'));
+	}
 	$(this).addClass('active').siblings().removeClass('active');
 	$('#chooseSku').text('已选择：' + $(this).html());
 });
@@ -976,6 +998,18 @@ $('.editor-user-info').click(function() {
 	}
 });
 
+$('.editor-user-code').click(function() {
+	if ($(this).attr('data-status') == '0') {
+	    $(this).siblings('input').removeAttr('readOnly');
+	    $(this).addClass('active').attr('data-status', '1');
+	    $(this).siblings('.verification').slideDown();
+	} else {
+		toUpdateAccountInfo($(this).siblings('input').attr('id'));
+	    $(this).siblings('input').attr('readOnly', 'readOnly');
+	    $(this).removeClass('active').attr('data-status', '0');
+	}
+});
+
 var toGetFavoriteList = function(status) {
 	var settings = {
 		url: apiUrl + 'Basis/User/Favorites/' + userId + '?opt=' + status,
@@ -993,7 +1027,7 @@ var toGetFavoriteList = function(status) {
 				favoriteHtml += '<li class="list-sty02" data-org="' + value.orgNo + '">'
                               + '    <a href="../product/shopDetails.html?orgNo=' + value.orgNo + '">'
                               + '        <div class="first-line">'
-                              + '            <img src="../../img/temporary-logo.png" alt="">'
+                              + '            <img src="' + value.thumbUrl + '" alt="">'
                               + '            <h3><span>' + value.title + '</span><i class="icon-superfine"></i></h3>'
                               + '            <em class="icon-new"></em>'
                               + '        </div>'
@@ -1328,7 +1362,6 @@ var toGetOrder = function(orderStatus) {
         }
 	};
 	$.ajax(settings).done(function(data) {
-		console.log(data)
 		var orderListHtml = '';
 		$.each(data, function(index, value) {
 			var productHtml = '';
@@ -1337,32 +1370,77 @@ var toGetOrder = function(orderStatus) {
 				productHtml += '<div class="list-sty04">'
                              + '    <img src="' + imgUrl + v.thumbImgFileId + '" alt="">'
                              + '    <h3><a href="javascript:;">' + v.productName + '</a></h3>'
-                             + '    <h5>(此商品性质不支持7天退货)</h5>'
-                             + '    <h4><i>¥</i>' + v.salePrice + '</h4>'
+                             // + '    <h5>(此商品性质不支持7天退货)</h5>'
+                             + '    <h5>规格：' + v.skuName + '</h5>'
+                             + '    <h4><i>¥</i>' + v.salePrice.toFixed(2) + '</h4>'
                              + '    <p>数量：' + v.quantity + '</p>'
                              + '</div>'
                 amount += v.amount
 			});
 			var btnHtml = '';
+			var orderDetailsUrl = '../../pay/orderDetails.html';
 			switch(orderStatus) {
-				case 1: btnHtml = '<h4><a class="cancel-order" href="javascript:;">取消订单</a><a class="pay-order" href="javascript:;">付款</a></h4>'; break;
-				case 3: btnHtml = '<h4><a class="" href="javascript:;">待收货</a></h4>'; break;
-				case 6: btnHtml = '<h4><a class="comment-order" href="javascript:;">评价</a></h4>'; break;
+				case 1: btnHtml = '<h4><a class="cancel-order native" href="javascript:;">取消订单</a><a class="pay-order" href="javascript:;">付款</a></h4>'; orderDetailsUrl = '../pay/orderDetails.html'; break;
+				case 5: btnHtml = '<h4><a href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a></h4>'; break;
+				case 6: btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a href="orderComment.html?sequenceNo=' + value.order.sequenceNo + '">评价</a></h4>'; break;
 			}
 			orderListHtml += '<li class="list-sty05" data-href="' + value.order.sequenceNo + '">'
                            + '    <h3>'
-                           + '        <img src="../../img/temporary-logo.png" alt="">'
+                           // + '        <img src="../../img/temporary-logo.png" alt="">'
+                           + '	  	  <i class="icon-shop"></i>'
                            + value.order.orgName
                            + '    </h3>'
-                           + '    <div onclick="javascript:window.location.href=\'../../pay/orderDetails.html?sequenceNo=' + value.order.sequenceNo + '\'">'
+                           + '    <div onclick="javascript:window.location.href=\'' + orderDetailsUrl + '?sequenceNo=' + value.order.sequenceNo + '\'">'
                            + productHtml
                            + '    </div>'
-                           + '    <p>共' + value.details.length + '件，合计：<em>¥<b>' + amount + '</b></em>(包含快递)</p>'
+                           + '    <p>共' + value.details.length + '件，合计：<em>¥<b>' + amount.toFixed(2) + '</b></em>(包含快递)</p>'
                            + btnHtml
                            + '</li>';
 		});
 		$('#orderList').append(orderListHtml);
 	})
+};
+
+var toGetLogisticsInfo = function() {
+	var settings = {
+		url: apiUrl + '/Market/Express/' + toGetParameter('sequenceNo')  + '?userId=' + userId,
+		type: 'GET',
+		dataType: 'json',
+		cache: false
+	};
+	$.ajax(settings).done(function(data) {
+		var state;
+		switch (data.state) {
+			case -1: state = '待查询'; break;
+			case 0: state = '查询异常'; break;
+			case 1: state = '暂无记录'; break;
+			case 2: state = '在途中'; break;
+			case 3: state = '派送中'; break;
+			case 4: state = '已签收'; break;
+			case 5: state = '用户拒签'; break;
+			case 6: state = '疑难件'; break;
+			case 7: state = '无效单'; break;
+			case 8: state = '超时单'; break;
+			case 9: state = '签售失败'; break;
+			case 10: state = '退回'; break;
+		}
+		$('#logisticState').html(state);
+		$('#expressCorpName').html(data.expressCorpName);
+		$('#expressCorpTel').html(data.telphone);
+		$('#mailNo').html(data.mailNo);
+		var logisticsHtml = '';
+		$.each(data.progress, function(index, value) {
+			logisticsHtml += '<li>'
+                           + '    <div class="left"></div>'
+                           + '    <div class="point"></div>'
+                           + '    <div class="right">'
+                           + '        <div class="l01">' + value.context + '</div>'
+                           + '        <div>' + new Date(value.time).Format('yy-MM-dd hh:mm:ss')+ '</div>'
+                           + '    </div>'
+                           + '</li>';
+		});
+		$('#logisticsDetails').html(logisticsHtml);
+	});
 };
 
 $('#orderList').on('click', '.cancel-order', function() {
@@ -1385,11 +1463,6 @@ $('#orderList').on('click', '.cancel-order', function() {
 	});
 });
 
-$('#orderList').on('click', '.comment-order', function() {
-	var $li = $(this).parents('li');
-	window.location.href = 'orderComment.html?id=' + $li.attr('data-href');
-});
-
 $('#payOrder').click(function() {
 	var data = {
 		orderSeqNo: $('#sequenceNo').val()
@@ -1398,8 +1471,9 @@ $('#payOrder').click(function() {
 })
 
 var toGetOrderDetails = function() {
+	var seqNo = toGetParameter('sequenceNo');
     var settings = {
-		url: apiUrl + 'Market/Orders/' + toGetParameter('sequenceNo'),
+		url: apiUrl + 'Market/Orders/' + seqNo,
 		type: 'GET',
 		dataType: 'json',
         beforeSend: function(xhr) {
@@ -1407,14 +1481,20 @@ var toGetOrderDetails = function() {
         }
 	};
 	$.ajax(settings).done(function(data) {
-		console.log(data)
 		switch (data.order.state) {
 			case 1: $('#paymentTime').parents('div:eq(0)').hide();
 		            $('#expressTime').parents('div:eq(0)').hide();
+		            $('#paymentFooter').show();
 				    break;
 		    case 2: $('#expressTime').parents('div:eq(0)').hide();
 				    break;
-		    default: $('#footer-sty06').hide(); break;
+			case 5: $('#receiveFooter').show();
+					$('#checklogistics > a').attr('href', '../Views/User/logistics.html?sequenceNo=' + seqNo);
+					break;
+			case 6: $('#commentFooter').show();
+					$('#commitOrder > a').attr('href', '../Views/User/orderComment.html?sequenceNo=' + seqNo);
+					$('#checklogistics > a').attr('href', '../Views/User/logistics.html?sequenceNo=' + seqNo);
+					break;
 		}
 			
 		var productHtml = '';
@@ -1422,7 +1502,8 @@ var toGetOrderDetails = function() {
             productHtml += '<div class="list-sty04">'
                          + '    <img src="' + imgUrl + value.thumbImgFileId + '" alt="">'
                          + '    <h3><a href="javascript:;">' + value.productName + '</a></h3>'
-                         + '    <h5>(此商品性质不支持7天退货)</h5>'
+                         // + '    <h5>(此商品性质不支持7天退货)</h5>'
+                         + '    <h5>规格：' + value.skuName + '</h5>'
                          + '    <h4><i>¥</i>' + value.salePrice + '</h4>'
                          + '    <p>数量：' + value.quantity + '</p>'
                          + '</div>'
@@ -1466,13 +1547,131 @@ $('#cancelOrder').click(function() {
 	});
 });
 
+var toGetCommentList = function() {
+	var settings = {
+		url: apiUrl + 'Market/Orders/' + toGetParameter('sequenceNo'),
+		type: 'GET',
+		dataType: 'json',
+		cache: false
+	};
+	$.ajax(settings).done(function(data) {
+		var commentHtml = '';
+		$('#orgNo').val(data.order.orgNo);
+		$.each(data.details, function(index, value) {
+			commentHtml += '<li data-productno="' + value.productNo + '" data-skuno="' + value.skuNo + '">'
+                         + '    <div class="l01">'
+                         + '        <img src="' + imgUrl + value.thumbImgFileId + '" alt="">'
+                         + '        <textarea placeholder="分享"></textarea>'
+                         + '    </div>'
+                         + '    <div class="l02"></div>'
+                         + '    <ul class="comment-level" data-level="1">'
+                         + '        <li class="good active" data-level="1">'
+                         + '            <i></i><span>好评</span>'
+                         + '        </li>'
+                         + '        <li class="common" data-level="0">'
+                         + '            <i></i><span>中评</span>'
+                         + '        </li>'
+                         + '        <li class="bad" data-level="-1">'
+                         + '            <i></i><span>差评</span>'
+                         + '        </li>'
+                         + '    </ul>'
+                         + '</li>'
+		});
+		$('#commentList').html(commentHtml);
+	});
+};
+
 $('.stars').on('click', 'li', function() {
     var index = $(this).index();
-    $($(this).parents('.stars').attr('data-id')).val(index + 1);
+    $($(this).parents('.stars').attr('data-id')).val((index + 1) * 2);
     $(this).parents('.stars').find('li').removeClass('on');
     for(var i = 0; i <= index; i++) {
     	$(this).parents('.stars').find('li').eq(i).addClass('on');
     }
 });
 
+$('#commentList').on('click', '.comment-level li', function(data) {
+	$(this).addClass('active').siblings().removeClass('active');
+	$(this).parents('.comment-level').attr('data-level', $(this).attr('data-level'));
+});
 
+$('#chooseAnonymous').click(function() {
+	if ($(this).hasClass('off')) {
+		$(this).removeClass('off');
+		$('#isAnonymous').val(0);
+	} else {
+		$(this).addClass('off');
+		$('#isAnonymous').val(1);
+	}
+});
+
+var commentSuccess = function(data) {
+	alertMsg('评价成功！');
+	setTimeout(function() {
+		window.location.href = 'waitComment.html';
+	}, 2000);
+};
+
+$('#confirmComment').click(function() {
+	var orderNo = toGetParameter('sequenceNo');
+	if (!$('#sellerAttitude').val() || !$('#logistic').val() || !$('#describe').val()) {
+		alertMsg('请对所有评价项进行评分！');
+		return;
+	}
+	var data = {
+		org: {
+			sequenceNo: 0,
+			content: '',
+			orderSeqNo: orderNo,
+			orgNo: $('#orgNo').val(),
+			scoring: {
+				201001: $('#sellerAttitude').val(), 
+				201002: $('#logistic').val(), 
+				202001: $('#describe').val()
+			}
+		}
+	};
+	var products = [];
+	$('#commentList > li').each(function() {
+		var content = $(this).find('textarea').val();
+		var level = $(this).find('.comment-level').attr('data-level');
+		var productItem = {
+			sequenceNo: 0,
+			orderSeqNo: orderNo,
+			productNo: $(this).attr('data-productno'),
+			skuNo: $(this).attr('data-skuno'),
+			content: content,
+			score: $(this).find('.comment-level').attr('data-level'),
+			state: Number($('#isAnonymous').val())
+		};
+		products.push(productItem);
+	});
+	data.products = products;
+	toDoAjax(data, 'PUT', apiUrl + 'Market/Appraisal/' + orderNo, commentSuccess, null)
+});
+
+$('.verification').on('click', '.active', function() {
+	var lastSecond = 59;
+	var $this = $(this);
+	$this.removeClass('active').html(lastSecond + '秒后可再次获取');
+	var countDown = setInterval(function(){
+		lastSecond--;
+		$this.html(lastSecond + '秒后可再次获取');
+		if (lastSecond == 0) {
+			clearInterval(countDown);
+			$this.html('获取验证码').addClass('active');
+		}
+	}, 1000);
+});
+
+var toGetProductComment = function(productNo) {
+	var settings = {
+		url: apiUrl + 'Market/Appraisal/product/' + productNo,
+		type: 'GET',
+		dataType: 'json',
+		cache: false
+	};
+	$.ajax(settings).done(function(data) {
+		console.log(data);
+	});
+}
