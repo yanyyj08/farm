@@ -1,3 +1,49 @@
+// /* 此处为线上 */
+// var apiUrl = 'http://api.guagua365.net/apiv1/';
+// var imgUrl = apiUrl + 'FastFiles/';
+
+// var accessKey = '';
+// var userId = '';
+// var orgNo = '';
+// toGetBasicInfo();
+// /* 此处为线上 end */
+
+
+/* 此处为本地测试 */
+// var apiUrl = 'http://mgapi.tunnel.qydev.com/apiv1/';
+// var imgUrl = 'http://api.guagua365.net/apiv1/FastFiles/';
+// var accessKey = 'mob_6d2bb8089de047eaafd5273b45ce55c1';
+// var userId = '48e54ad1-fb9f-4e40-836d-fc292bf4859b';
+/* 此处为本地测试 end */
+
+
+/* 此处为yan本地测试 */
+var apiUrl = 'http://api.guagua365.net/apiv1/';
+var imgUrl = apiUrl + 'FastFiles/';
+var accessKey = '5cdf9742b8f04ebda32111b9dc1b2880';
+var userId = 'a7f842df-78b3-4944-a428-05bb9b8c9ed9';
+/* 此处为yan本地测试 end */
+
+
+const TIMEFORMATCOMPLETE = 'yyyy-MM-dd hh:mm:ss';
+const TIMEFORMAT = 'yyyy-MM-dd';
+
+function toGetBasicInfo() {
+    accessKey = toGetParameter('accesskey');
+    userId = toGetParameter('userid');
+    if (!accessKey || !userId) {
+        if (!localStorage.accessKey || !localStorage.userId) {
+            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx751a3b9c6afdb368&redirect_uri=' + encodeURI('http://api.guagua365.net/apiv1/auth/wechat/authorize') + '&response_type=code&scope=snsapi_userinfo&state=home#wechat_redirect';
+        } else {
+            accessKey = localStorage.accessKey;
+            userId = localStorage.userId;
+        }
+    } else {
+        localStorage.accessKey = accessKey;
+        localStorage.userId = userId;
+    }
+};
+
 // 时间格式化
 Date.prototype.Format = function(fmt) { //author: meizz   
     var o = {
@@ -134,3 +180,14 @@ var toDoAjax = function(param, type, url, callBack, callBackData) {
 };
 
 // 分页
+
+$(function() {
+    $('.tabs').on('click', 'li', function() {
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.tab-panel').eq($(this).index()).show().siblings().hide();
+    });
+
+    $('.btn-back').click(function() {
+        history.back(-1);
+    });
+});

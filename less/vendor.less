@@ -1,0 +1,93 @@
+
+// 全站底层框架结构-----------------------------------------------------------------------------
+
+// reset
+@import "modules/base.less";
+
+// 变量
+@import "modules/variables.less";
+
+// 动画
+@import "modules/animate.less";
+
+// 按钮
+@import "modules/button.less";
+
+// 图标
+@import "modules/icons.less";
+
+// 弹层
+@import "modules/modals.less";
+
+// 导航栏
+@import "modules/tab.less";
+
+// 下来菜单
+@import "modules/dropdowns.less";
+
+// 列表
+@import "modules/list.less";
+
+// 轮播
+@import "modules/carousel.less";
+
+// 头部
+@import "modules/header.less";
+
+// 底部
+@import "modules/footer.less";
+
+
+body { background: @body-bg; }
+
+.vendor-index {
+	.p01 { width: 100%; background-color: #fff;
+		> li { float: left; position: relative; width: 33.3%; margin: 8px 0;
+			> a { display: block; width: auto; margin: 0 auto; text-align: center;
+				> em { display: block; line-height: 30px; font-size: 20px; color: @font-color; }
+				> span { display: block; line-height: 22px; font-size: 14px; color: @font-lighter-color }
+			}
+			.line { position: absolute; top: 50%; right: 0; margin-top: -20px; width: 1px; height: 40px; background-color: @border-color; }
+		}
+	}
+	> p { line-height: 28px; padding-left: 10px; color: @font-color; font-size: 14px; }
+	.p02 { background-color: #fff;
+		> ul {
+			li { float: left; width: 25%; line-height: 28px; color: @font-darker-color; font-size: 14px; text-align: center; border-bottom: 2px solid #fff;
+				&.active { color: @base-color; border-color: @base-color; }
+			}
+		}
+		> div { padding-left: 10px; border: 1px solid @border-color;
+			.line { position: relative; line-height: 34px; border-top: 1px solid @border-color;
+				> a { display: block; color: @font-lighter-color; font-size: 14px; 
+					> span { position: absolute; right: 28px; color: @base-color;
+						> b { font-weight: normal; margin: 0 12px; }
+					}
+					> i { position: absolute; top: 10px; right: 10px; }
+				}
+				&:first-child { border: none; }
+			}
+		}
+	}
+}
+
+
+.today-record {
+	> ul { margin: 4px 0; background-color: #fff;
+		> li { padding: 8px 10px; color: @font-lighter-color; border-top: 1px solid @border-color;
+			&:first-child { border: none; }
+			> p { font-size: 14px; .ellipsis;
+				> span { float: right; }
+			}
+		}
+	}
+	> div { line-height: 34px; text-align: center; font-size: 14px; color: @font-darker-color; background-color: #fff;
+		> b { margin: 0 20px; }
+	}
+}
+
+
+
+
+
+

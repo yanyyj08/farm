@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>订单管理</title>
+    <link rel="stylesheet" href="../../css/vendor.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="javascript:;" class="btn-back"></a>
+            <h3 id="orderTitle"></h3>
+        </div>
+        <div class="content content-sty01">
+            <div class="vendor-index">
+                <ul id="orderList">
+                    <!-- <li class="list-sty06">
+                        <div class="l01">
+                            <p><em>订单号：1231231</em><span>2017-01-01</span></p>
+                            <p>[某某店铺] 某某产品 数量 规格</p>
+                        </div>
+                        <div class="l02">
+                            <p><em>收货人：dfa</em><span>231231231221</span></p>
+                            <p>收货地址：2321312</p>
+                        </div>
+                        <div class="l03 clearfix">
+                            <span>应收：<i>¥18.00</i></span>
+                            <span>优惠：<i>¥0</i></span>
+                            <span>运费：<i>¥0</i></span>
+                        </div>
+                        <div class="l04">实收金额：10 - 10 + 0 = <i>¥20</i></div>
+                        <div class="l05">
+                            <a class="a01" href="javascript:;">修改金额</a>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <input type="hidden" id="seqNo" name="seqNo">
+            <div class="modal modal-sty01" id="changeAmountModal" style="display: none;">
+                <div class="modal-content">
+                    <div>
+                        <input id="consumDiscount" type="text" placeholder="优惠金额">
+                    </div>
+                    <div>
+                        <input id="expressCharge" type="text" placeholder="运费金额">
+                    </div>
+                </div>
+                <ul class="modal-footer clearfix">
+                    <li class="cancel">取消</li>
+                    <li class="confirm">确认</li>
+                </ul>
+            </div>
+            <div class="modal modal-sty01" id="confirmDeliverModal" style="display: none;">
+                <div class="modal-content">
+                    <div>
+                        <select id="expressCorpNo">
+                            <option value="">选择快递公司</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input class="left" id="expressNo" name="expressNo" type="text" placeholder="快递单号">
+                        <a href="javascript"></a>
+                    </div>
+                </div>
+                <ul class="modal-footer clearfix">
+                    <li class="cancel">取消</li>
+                    <li class="confirm">确认</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/vendor.js?v=2017020201"></script>
+    <script>
+    $(function() {
+        toGetVendorOrderList(toGetParameter('orderCode'));
+    });
+    </script>
+</body>
+
+</html>

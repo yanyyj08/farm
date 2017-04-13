@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>我的店铺</title>
+    <link rel="stylesheet" href="../../css/vendor.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a class="icon-index" href="../../index.html"></a>
+            <h3>我的店铺<span id="myOrgName"></span></h3>
+        </div>
+        <div class="content">
+            <div class="vendor-index">
+                <ul class="p01 clearfix">
+                    <li>
+                        <a href="orderList.html?orderCode=waitPaid">
+                            <em id="unPaidCount">0</em>
+                            <span>未付款订单</span>
+                        </a>
+                        <div class="line"></div>
+                    </li>
+                    <li>
+                        <a href="orderList.html?orderCode=waitDeliver">
+                            <em id="paidCount">0</em>
+                            <span>待发货订单</span>
+                        </a>
+                        <div class="line"></div>
+                    </li>
+                    <li>
+                        <a href="orderList.html?orderCode=waitReceive">
+                            <em id="deliveringCount">0</em>
+                            <span>已发货订单</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="orderList.html?orderCode=waitComment">
+                            <em id="signedCount">0</em>
+                            <span>已收货订单</span>
+                        </a>
+                        <div class="line"></div>
+                    </li>
+                    <li>
+                        <a href="orderList.html?orderCode=closed">
+                            <em class="closedCount">0</em>
+                            <span>已评价订单</span>
+                        </a>
+                        <div class="line"></div>
+                    </li>
+                    <li>
+                        <a href="orderList.html?orderCode=all">
+                            <em class="totalCount">0</em>
+                            <span>所有订单</span>
+                        </a>
+                        <div class="line"></div>
+                    </li>
+                </ul>
+                <p>订单统计</p>
+                <div class="p02">
+                    <ul class="clearfix" id="changeOrderTimeRange">
+                        <li class="active">今日</li>
+                        <li>最近一周</li>
+                        <li>最近一个月</li>
+                        <li>最近三个月</li>
+                    </ul>
+                    <div>
+                        <div class="line">
+                            <a href="javascript:;">
+                                <em>订单总数：</em>
+                                <span><i class="totalCount"></i>笔</span>
+                                <i class="icon-arrow-to"></i>
+                            </a>
+                        </div>
+                        <div class="line">
+                            <a href="javascript:;">
+                                <em>成交总数：</em>
+                                <span><i class="closedCount"></i>笔</span>
+                                <i class="icon-arrow-to"></i>
+                            </a>
+                        </div>
+                        <div class="line">
+                            <a href="javascript:;">
+                                <em>应收金额：</em>
+                                <span><i></i>元</span>
+                                <i class="icon-arrow-to"></i>
+                            </a>
+                        </div>
+                        <div class="line">
+                            <a href="javascript:;">
+                                <em>实收金额：</em>
+                                <span><i></i>元</span>
+                                <i class="icon-arrow-to"></i>
+                            </a>
+                        </div>
+                        <div class="line">
+                            <a href="javascript:;">
+                                <em>结算金额：</em>
+                                <span><i></i>笔<b>/</b><i></i>元</span>
+                                <i class="icon-arrow-to"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer footer-sty07">
+            <a href="javascript:;">完善店铺信息</a>
+        </div>
+    </div>
+    <script src="../../js/vendor.js?v=2017020201"></script>
+    <script>
+    $(function() {
+        toGetOrgNo();
+    });
+    </script>
+</body>
+
+</html>
