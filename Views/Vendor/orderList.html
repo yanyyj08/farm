@@ -47,43 +47,56 @@
                 </ul>
             </div>
             <input type="hidden" id="seqNo" name="seqNo">
-            <div class="modal modal-sty01" id="changeAmountModal" style="display: none;">
-                <div class="modal-content">
-                    <div>
-                        <input id="consumDiscount" type="text" placeholder="优惠金额">
-                    </div>
-                    <div>
-                        <input id="expressCharge" type="text" placeholder="运费金额">
-                    </div>
+        </div>
+        <div class="modal modal-sty01" id="changeAmountModal" style="display: none;">
+            <div class="modal-content">
+                <div>
+                    <input id="consumDiscount" type="text" placeholder="优惠金额">
                 </div>
-                <ul class="modal-footer clearfix">
-                    <li class="cancel">取消</li>
-                    <li class="confirm">确认</li>
-                </ul>
-            </div>
-            <div class="modal modal-sty01" id="confirmDeliverModal" style="display: none;">
-                <div class="modal-content">
-                    <div>
-                        <select id="expressCorpNo">
-                            <option value="">选择快递公司</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input class="left" id="expressNo" name="expressNo" type="text" placeholder="快递单号">
-                        <a href="javascript"></a>
-                    </div>
+                <div>
+                    <input id="expressCharge" type="text" placeholder="运费金额">
                 </div>
-                <ul class="modal-footer clearfix">
-                    <li class="cancel">取消</li>
-                    <li class="confirm">确认</li>
-                </ul>
             </div>
+            <ul class="modal-footer clearfix">
+                <li class="cancel">取消</li>
+                <li class="confirm">确认</li>
+            </ul>
+        </div>
+        <div class="modal modal-sty01" id="confirmDeliverModal" style="display: none;">
+            <div class="modal-content">
+                <div>
+                    <select id="expressCompanyNo">
+                        <option value="">选择快递公司</option>
+                    </select>
+                </div>
+                <div style="display: none;">
+                    <input id="expressCompanyName" name="expressCompanyName" type="text" placeholder="快递公司">
+                </div>
+                <div>
+                    <input class="left" id="expressNo" name="expressNo" type="text" placeholder="快递单号">
+                    <a href="javascript"></a>
+                </div>
+            </div>
+            <ul class="modal-footer clearfix">
+                <li class="cancel">取消</li>
+                <li class="confirm">确认</li>
+            </ul>
+        </div>
+        <div class="modal modal-sty01" id="remarkModal" style="display: none;">
+            <div class="modal-content">
+                <textarea id="remark" type="text" placeholder="备注"></textarea>
+            </div>
+            <ul class="modal-footer clearfix">
+                <li class="cancel">取消</li>
+                <li class="confirm">确认</li>
+            </ul>
         </div>
     </div>
     <script src="../../js/vendor.js?v=2017020201"></script>
     <script>
     $(function() {
         toGetVendorOrderList(toGetParameter('orderCode'));
+        toGetExpressCompany();
     });
     </script>
 </body>

@@ -1352,7 +1352,7 @@ var toGetOrder = function(orderStatus) {
 
 var toGetLogisticsInfo = function() {
 	var settings = {
-		url: apiUrl + '/Market/Express/' + toGetParameter('sequenceNo')  + '?userId=' + userId,
+		url: apiUrl + 'Market/Express/' + toGetParameter('sequenceNo')  + '?userId=' + userId,
 		type: 'GET',
 		dataType: 'json',
 		cache: false

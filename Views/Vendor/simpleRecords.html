@@ -22,31 +22,18 @@
             <a href="javascript:;" class="btn-back"></a>
             <h3>今日小计</h3>
         </div>
-        <div class="content">
-            <div class="today-record">
-                <ul>
-                    <li>
-                        <p>
-                            <em>订单号：213231312</em>
-                            <span>时间</span>
-                        </p>
-                        <p>
-                            <em>应收金额：¥18.80</em>
-                            <span>结算金额：¥16.8</span>
-                        </p>
-                        <p>摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要要摘要摘要摘要摘要摘要摘要摘要要摘要摘要摘要摘要摘要摘要摘要要摘要摘要摘要摘要摘要摘要摘要要摘要摘要摘要摘要摘要摘要摘要要</p>
-                    </li>
-                </ul>
-                <div>订单总数：<i>3</i>笔<b>/</b>结算金额总计：<i>22</i>元</div>
+        <div class="content content-sty01">
+            <div class="simple-record">
+                <ul id="simpleRecords"></ul>
+                <div>订单总数：<i id="transferOutCount">0</i>笔<b>/</b><i id="transferHtml">成交</i>金额总计：<i id="transferOutAmount">0</i>元</div>
             </div>
-        </div>
-        <div class="footer footer-sty07">
-            <a href="javascript:;">完善店铺信息</a>
         </div>
     </div>
     <script src="../../js/vendor.js?v=2017020201"></script>
     <script>
-    toGetVendorOrderDetails();
+    $(function() {
+        toGetSimpleRecords();
+    });
     </script>
 </body>
 

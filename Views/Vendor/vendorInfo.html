@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="max-age=14400">
+    <title>我的店铺</title>
+    <link rel="stylesheet" href="../../css/vendor.css?v=2017020201" />
+    <script src="../../js/jquery-2.2.1.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a class="btn-back" href="javascript:;"></a>
+            <h3 id="myOrgName">我的店铺</h3>
+        </div>
+        <div class="content">
+            <div class="vendor-info">
+                <div class="clearfix">
+                    <em>店铺名称</em>
+                    <span>
+                        <input class="require" type="text" id="orgName" name="orgName" placeholder="请输入店铺名称">
+                    </span>
+                </div>
+                <div class="clearfix">
+                    <em>经营地址</em>
+                    <span>
+                        <input class="require" type="text" id="address" name="address" placeholder="请输入店铺地址">
+                    </span>
+                </div>
+                <div class="clearfix">
+                    <em>联系人姓名</em>
+                    <span>
+                        <input class="require" type="text" id="contactName" name="contactName" placeholder="请输入联系人姓名">
+                    </span>
+                </div>
+                <div class="clearfix">
+                    <em>联系电话</em>
+                    <span>
+                        <input class="require" type="tel" id="phoneNumber" name="phoneNumber" placeholder="请输入联系电话">
+                    </span>
+                </div>
+                <div class="clearfix">
+                    <em>传真电话</em>
+                    <span>
+                        <input type="text" id="FaxNumber" name="FaxNumber" placeholder="请输入传真电话(可为空)">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="footer footer-sty07">
+            <a href="javascript:;" id="confirmVendorInfo">提交</a>
+        </div>
+    </div>
+    <script src="../../js/vendor.js?v=2017020201"></script>
+    <script>
+    $(function() {
+        toGetVendorInfo();
+    });
+    </script>
+</body>
+
+</html>

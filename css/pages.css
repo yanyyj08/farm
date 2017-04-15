@@ -560,14 +560,14 @@ div {
 }
 .modal {
   position: absolute;
-  left: 10%;
   z-index: 2000;
   box-sizing: border-box;
-  width: 80%;
 }
 .modal-sty01 {
   top: 100px;
+  left: 10%;
   overflow: hidden;
+  width: 80%;
   border-radius: 2px;
   background-color: #fff;
 }
@@ -608,6 +608,15 @@ div {
   margin-left: 8px;
   width: 28px;
 }
+.modal-sty01 .modal-content > textarea {
+  box-sizing: border-box;
+  padding: 8px;
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ececec;
+  border-radius: 2px;
+  resize: none;
+}
 .modal-sty01 .modal-footer {
   height: 32px;
   line-height: 32px;
@@ -622,6 +631,12 @@ div {
   text-align: center;
   border-left: 1px solid #7fddc6;
   border-right: 1px solid #3ec4a2;
+}
+.modal-sty02 {
+  top: 100px;
+  bottom: 100px;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 .tab {
   position: relative;
@@ -1105,7 +1120,7 @@ div {
 }
 .list-sty06 .l01,
 .list-sty06 .l02 {
-  padding: 10px 10px 10px 0;
+  padding: 10px 10px 4px 0;
   font-size: 14px;
 }
 .list-sty06 .l01 > p,
@@ -1139,15 +1154,12 @@ div {
 .list-sty06 .l03 > span {
   float: left;
   display: block;
-  width: 33.3%;
+  width: 50%;
 }
 .list-sty06 .l03 > span > i {
   color: #48cfad;
 }
 .list-sty06 .l03 > span:nth-child(2) {
-  text-align: center;
-}
-.list-sty06 .l03 > span:nth-child(3) {
   text-align: right;
 }
 .list-sty06 .l04 {
@@ -1166,6 +1178,7 @@ div {
   text-align: right;
 }
 .list-sty06 .l05 > a {
+  margin-left: 4px;
   padding: 2px 14px;
   font-size: 14px;
   border: 1px solid #48cfad;
@@ -1182,6 +1195,11 @@ div {
   background-color: #fff;
   color: #999999;
   border-color: #ececec;
+}
+.list-sty06 .l05 > a.a04 {
+  background-color: #fff;
+  color: #999999;
+  border: none;
 }
 .list-sty06 .l05 > i {
   color: #666666;
@@ -1266,6 +1284,9 @@ div {
   line-height: 50px;
   color: #48cfad;
   font-size: 12px;
+}
+.header > span > a {
+  color: #48cfad;
 }
 .footer {
   position: relative;

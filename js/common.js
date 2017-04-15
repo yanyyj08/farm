@@ -1,12 +1,12 @@
-// /* 此处为线上 */
-// var apiUrl = 'http://api.guagua365.net/apiv1/';
-// var imgUrl = apiUrl + 'FastFiles/';
+/* 此处为线上 */
+var apiUrl = 'http://api.guagua365.net/apiv1/';
+var imgUrl = apiUrl + 'FastFiles/';
 
-// var accessKey = '';
-// var userId = '';
-// var orgNo = '';
-// toGetBasicInfo();
-// /* 此处为线上 end */
+var accessKey = '';
+var userId = '';
+var orgNo = '';
+toGetBasicInfo();
+/* 此处为线上 end */
 
 
 /* 此处为本地测试 */
@@ -17,12 +17,12 @@
 /* 此处为本地测试 end */
 
 
-/* 此处为yan本地测试 */
-var apiUrl = 'http://api.guagua365.net/apiv1/';
-var imgUrl = apiUrl + 'FastFiles/';
-var accessKey = '5cdf9742b8f04ebda32111b9dc1b2880';
-var userId = 'a7f842df-78b3-4944-a428-05bb9b8c9ed9';
-/* 此处为yan本地测试 end */
+// /* 此处为yan本地测试 */
+// var apiUrl = 'http://api.guagua365.net/apiv1/';
+// var imgUrl = apiUrl + 'FastFiles/';
+// var accessKey = 'd54758e3358f43dea607ab385a4a4dcb';
+// var userId = 'a7f842df-78b3-4944-a428-05bb9b8c9ed9';
+// /* 此处为yan本地测试 end */
 
 
 const TIMEFORMATCOMPLETE = 'yyyy-MM-dd hh:mm:ss';
@@ -106,7 +106,7 @@ var reload = function() {
     window.location.reload();
 };
 
-var toGetParameter = function(name) {
+function toGetParameter(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
     var r = window.location.search.substr(1).match(reg) ?
         window.location.search.substr(1).match(reg)[2] : '';
@@ -162,16 +162,22 @@ var toDoAjax = function(param, type, url, callBack, callBackData) {
         if (this.readyState === 4) {
             if (Object.prototype.toString.call(callBack) === '[object Function]') {
                 if (callBackData) {
-                    callBack(this.responseText, callBackData);
+                    if (this.responseText) {
+                        callBack(JSON.parse(this.responseText), callBackData);
+                    } else { callBack(this.responseText, callBackData); }
                 } else {
-                    callBack(this.responseText);
+                    if (this.responseText) {
+                        callBack(JSON.parse(this.responseText));
+                    } else { callBack(this.responseText); }
                 }
             }
         }
     });
 
     xhr.open(type, url);
-    xhr.setRequestHeader('accesskey', accessKey);
+    if (accessKey) {
+        xhr.setRequestHeader('accessKey', accessKey);
+    }
     // xhr.setRequestHeader('userId', userId);
     xhr.setRequestHeader('content-type', 'application/json');
     xhr.setRequestHeader('cache-control', 'no-cache');

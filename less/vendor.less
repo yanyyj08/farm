@@ -72,7 +72,7 @@ body { background: @body-bg; }
 }
 
 
-.today-record {
+.simple-record {
 	> ul { margin: 4px 0; background-color: #fff;
 		> li { padding: 8px 10px; color: @font-lighter-color; border-top: 1px solid @border-color;
 			&:first-child { border: none; }
@@ -83,6 +83,16 @@ body { background: @body-bg; }
 	}
 	> div { line-height: 34px; text-align: center; font-size: 14px; color: @font-darker-color; background-color: #fff;
 		> b { margin: 0 20px; }
+	}
+}
+
+.vendor-info { margin-top: 8px; padding: 0 10px; font-size: 14px; background-color: #fff; border-top: 1px solid @border-color; border-bottom: 1px solid @border-color;
+	> div { height: 34px; line-height: 34px; border-top: 1px solid @border-color;
+		&:first-child { border-top: none; }
+		> em { float: left; width: 100px; }
+		> span { float: left; width: calc(~"100% - 100px");
+			> input { height: 26px; line-height: 26px; font-size: 14px; border: none; }
+		}
 	}
 }
 

@@ -20,7 +20,8 @@
     <div class="wrapper">
         <div class="header">
             <a class="icon-index" href="../../index.html"></a>
-            <h3>我的店铺<span id="myOrgName"></span></h3>
+            <h3 id="myOrgName">我的店铺</h3>
+            <span><a href="vendorList.html">切换店铺</a></span>
         </div>
         <div class="content">
             <div class="vendor-index">
@@ -28,13 +29,13 @@
                     <li>
                         <a href="orderList.html?orderCode=waitPaid">
                             <em id="unPaidCount">0</em>
-                            <span>未付款订单</span>
+                            <span>待付款订单</span>
                         </a>
                         <div class="line"></div>
                     </li>
                     <li>
                         <a href="orderList.html?orderCode=waitDeliver">
-                            <em id="paidCount">0</em>
+                            <em id="toBeDeliveredCount">0</em>
                             <span>待发货订单</span>
                         </a>
                         <div class="line"></div>
@@ -42,26 +43,26 @@
                     <li>
                         <a href="orderList.html?orderCode=waitReceive">
                             <em id="deliveringCount">0</em>
-                            <span>已发货订单</span>
+                            <span>待收货订单</span>
                         </a>
                     </li>
                     <li>
                         <a href="orderList.html?orderCode=waitComment">
                             <em id="signedCount">0</em>
-                            <span>已收货订单</span>
+                            <span>待评价订单</span>
                         </a>
                         <div class="line"></div>
                     </li>
                     <li>
                         <a href="orderList.html?orderCode=closed">
-                            <em class="closedCount">0</em>
-                            <span>已评价订单</span>
+                            <em id="closedCount">0</em>
+                            <span>已完成订单</span>
                         </a>
                         <div class="line"></div>
                     </li>
                     <li>
                         <a href="orderList.html?orderCode=all">
-                            <em class="totalCount">0</em>
+                            <em id="totalCount">0</em>
                             <span>所有订单</span>
                         </a>
                         <div class="line"></div>
@@ -77,37 +78,30 @@
                     </ul>
                     <div>
                         <div class="line">
-                            <a href="javascript:;">
+                            <a id="totalCountHref" href="orderList.html?orderCode=all">
                                 <em>订单总数：</em>
-                                <span><i class="totalCount"></i>笔</span>
+                                <span><i class="totalCount">0</i>笔</span>
                                 <i class="icon-arrow-to"></i>
                             </a>
                         </div>
                         <div class="line">
-                            <a href="javascript:;">
+                            <a class="paidlist-href" href="orderList.html?orderCode=paid">
                                 <em>成交总数：</em>
-                                <span><i class="closedCount"></i>笔</span>
+                                <span><i id="paidCount">0</i>笔</span>
                                 <i class="icon-arrow-to"></i>
                             </a>
                         </div>
                         <div class="line">
-                            <a href="javascript:;">
-                                <em>应收金额：</em>
-                                <span><i></i>元</span>
+                            <a class="paidrecord-href" href="simpleRecords.html?recordCode=paid">
+                                <em>成交总额：</em>
+                                <span><i id="amount">0</i>元</span>
                                 <i class="icon-arrow-to"></i>
                             </a>
                         </div>
                         <div class="line">
-                            <a href="javascript:;">
-                                <em>实收金额：</em>
-                                <span><i></i>元</span>
-                                <i class="icon-arrow-to"></i>
-                            </a>
-                        </div>
-                        <div class="line">
-                            <a href="javascript:;">
+                            <a id="incomeHref" href="simpleRecords.html?recordCode=income">
                                 <em>结算金额：</em>
-                                <span><i></i>笔<b>/</b><i></i>元</span>
+                                <span><i id="transferOutCount">0</i>笔<b>/</b><i id="transferOutAmount">0</i>元</span>
                                 <i class="icon-arrow-to"></i>
                             </a>
                         </div>
@@ -116,7 +110,7 @@
             </div>
         </div>
         <div class="footer footer-sty07">
-            <a href="javascript:;">完善店铺信息</a>
+            <a href="vendorInfo.html">店铺信息</a>
         </div>
     </div>
     <script src="../../js/vendor.js?v=2017020201"></script>
