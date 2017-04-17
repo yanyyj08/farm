@@ -1,12 +1,10 @@
-/* 此处为线上 */
-var apiUrl = 'http://api.guagua365.net/apiv1/';
-var imgUrl = apiUrl + 'FastFiles/';
-
-var accessKey = '';
-var userId = '';
-var orgNo = '';
-toGetBasicInfo();
-/* 此处为线上 end */
+// /* 此处为线上 */
+// var apiUrl = 'http://api.guagua365.net/apiv1/';
+// var imgUrl = apiUrl + 'FastFiles/';
+// var accessKey = '';
+// var userId = '';
+// toGetBasicInfo();
+// /* 此处为线上 end */
 
 
 /* 此处为本地测试 */
@@ -17,12 +15,12 @@ toGetBasicInfo();
 /* 此处为本地测试 end */
 
 
-// /* 此处为yan本地测试 */
-// var apiUrl = 'http://api.guagua365.net/apiv1/';
-// var imgUrl = apiUrl + 'FastFiles/';
-// var accessKey = 'd54758e3358f43dea607ab385a4a4dcb';
-// var userId = 'a7f842df-78b3-4944-a428-05bb9b8c9ed9';
-// /* 此处为yan本地测试 end */
+/* 此处为yan本地测试 */
+var apiUrl = 'http://api.guagua365.net/apiv1/';
+var imgUrl = apiUrl + 'FastFiles/';
+var accessKey = 'd54758e3358f43dea607ab385a4a4dcb';
+var userId = 'a7f842df-78b3-4944-a428-05bb9b8c9ed9';
+/* 此处为yan本地测试 end */
 
 
 const TIMEFORMATCOMPLETE = 'yyyy-MM-dd hh:mm:ss';
