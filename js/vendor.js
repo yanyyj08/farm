@@ -326,9 +326,9 @@ $('#orderList').on('click', '.show-logistics', function() {
 
 var changeAmountSuccess = function(data) {
 	alertMsg('修改成功!');
-	// setTimeout(function() {
-	// 	window.location.reload();
-	// }, 2000);
+	setTimeout(function() {
+		window.location.reload();
+	}, 2000);
 };
 
 $('#changeAmountModal .confirm').click(function() {

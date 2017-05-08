@@ -909,9 +909,10 @@ var toGetAccountDetails = function() {
 		$('#favoriteProduct').html(data.favorites.length - favoriteShop);
 		var accountAddressHtml = '';
 		$.each(data.address, function(index, value) {
+			console.log(value)
 			accountAddressHtml += '<div class="line">'
                                 + '    <em class="address">地址' + index + '</em>'
-                                + '    <span>' + value.address + '&nbsp;&nbsp;' + value.phone + '</span>'
+                                + '    <span class="address-details">' + value.contact + '&nbsp;&nbsp;' + value.address + '&nbsp;&nbsp;' + value.phone + '</span>'
                                 + '</div>';
 		});
 		accountAddressHtml += '<div class="line"><a href="./address.html?choose=0"><b></b>收货地址管理</a></div>'
@@ -958,6 +959,21 @@ $('.editor-user-code').click(function() {
 		toUpdateAccountInfo($(this).siblings('input').attr('id'));
 	    $(this).siblings('input').attr('readOnly', 'readOnly');
 	    $(this).removeClass('active').attr('data-status', '0');
+	}
+});
+
+$('.verify-group .editor-ipt').keyup(function() {
+	if ($(this).val().length == 11) {
+		$(this).parents('.verify-group').find('.verify-btn').addClass('active');
+	} else {
+		$(this).parents('.verify-group').find('.verify-btn').removeClass('active');
+	}
+});
+
+$('.verify-group .verify-ipt').focus(function() {
+	var $editorIpt = $(this).parents('.verify-group').find('.editor-ipt');
+	if ($editorIpt.val().length == 11) {
+		$(this).siblings('.verify-btn').addClass('active');
 	}
 });
 
@@ -1244,7 +1260,15 @@ var confirmOrderSuccess = function(data) {
 	    window.location.href = '../../pay/waitPayment.html';
 	}, 2000);
 };
+
 $('#confirmOrder').click(function() {
+	if (Number($('#metaNo').val()) === 0) {
+		alertMsg('请先添加地址！');
+		setTimeout(function() {
+			window.location.href = '../User/address.html?choose=1';
+		}, 2000);
+		return false;
+	}
 	if ($(this).hasClass('disabled')) {
 		return false;
 	}
