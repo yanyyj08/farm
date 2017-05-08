@@ -1,4 +1,7 @@
+var loading;
+
 var payInfo = {};
+
 var onBridgeReady = function() {
     WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
@@ -18,6 +21,7 @@ var onBridgeReady = function() {
 };
 
 var toPay = function() {
+    layer.close(loading);
     if (typeof WeixinJSBridge == "undefined") {
         if (document.addEventListener) {
             document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
@@ -31,7 +35,6 @@ var toPay = function() {
 };
 
 var payOrdrSuccess = function(data) {
-    data = JSON.parse(data);
     payInfo.appId = data.paymentParameters.appId;
     // prepayId = data.paymentParameters.prepay_id;
     payInfo.nonceStr = data.paymentParameters.nonceStr;
@@ -42,9 +45,18 @@ var payOrdrSuccess = function(data) {
 };
 
 $('#orderList').on('click', '.pay-order', function() {
+    loading = layer.open({type: 2, shadeClose: false});
     var $li = $(this).parents('li');
     var data = {
         orderSeqNo: $li.attr('data-href')
     };
     toDoAjax(data, 'PUT', apiUrl + 'Market/Orders/Payment/' + $li.attr('data-href') + '?userId=' + userId, payOrdrSuccess, null);
 });
+
+$('#payOrder').click(function() {
+    loading = layer.open({type: 2, shadeClose: false});
+    var data = {
+        orderSeqNo: $('#sequenceNo').val()
+    };
+    toDoAjax(data, 'PUT', apiUrl + 'Market/Orders/Payment/' + $('#sequenceNo').val() + '?userId=' + userId, payOrdrSuccess, null);
+})

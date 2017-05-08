@@ -888,6 +888,9 @@ div {
   height: 14px;
   line-height: 14px;
   color: #666666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .list-sty02 > a .second-line > p:nth-child(3) {
   margin-top: 2px;
@@ -1125,7 +1128,6 @@ div {
 }
 .list-sty06 .l01 > p,
 .list-sty06 .l02 > p {
-  height: 14px;
   line-height: 16px;
 }
 .list-sty06 .l01 > p:nth-child(1),

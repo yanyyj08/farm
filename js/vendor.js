@@ -290,6 +290,7 @@ $('#orderList').on('click', '.change-amount', function() {
 	$('#seqNo').val($(this).parents('li').attr('data-sequenceno'));
 	$('#expressCharge').val($(this).attr('data-expresscharge'));
 	$('#consumDiscount').val($(this).attr('data-consumdiscount'))
+
 	showOverlay();
 	$('#changeAmountModal').show();
 });

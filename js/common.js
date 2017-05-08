@@ -18,8 +18,8 @@
 /* 此处为yan本地测试 */
 var apiUrl = 'http://api.guagua365.net/apiv1/';
 var imgUrl = apiUrl + 'FastFiles/';
-var accessKey = 'd54758e3358f43dea607ab385a4a4dcb';
-var userId = 'a7f842df-78b3-4944-a428-05bb9b8c9ed9';
+var accessKey = 'f92b65420d39431290f3128215f22079';
+var userId = '97e675bd-a9f9-48a1-bb00-2719cb8eec66';
 /* 此处为yan本地测试 end */
 
 
@@ -158,14 +158,17 @@ var toDoAjax = function(param, type, url, callBack, callBackData) {
 
     xhr.addEventListener("readystatechange", function() {
         if (this.readyState === 4) {
+            var response = '';
             if (Object.prototype.toString.call(callBack) === '[object Function]') {
                 if (callBackData) {
                     if (this.responseText) {
-                        callBack(JSON.parse(this.responseText), callBackData);
+                        response = typeof this.responseText === 'string' ? JSON.parse(this.responseText) : this.responseText;
+                        callBack(response, callBackData);
                     } else { callBack(this.responseText, callBackData); }
                 } else {
                     if (this.responseText) {
-                        callBack(JSON.parse(this.responseText));
+                        response = typeof this.responseText === 'string' ? JSON.parse(this.responseText) : this.responseText;
+                        callBack(response);
                     } else { callBack(this.responseText); }
                 }
             }

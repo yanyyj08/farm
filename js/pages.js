@@ -240,8 +240,9 @@ var toGetOrgList = function() {
                          // + '            <h4>店铺活动：</h4>'
                          // + '            <p><i class="icon-full"></i><span>满20减5元 满40减12元</span></p>'
                          // + '            <p><i class="icon-grab"></i><span>买二送一</span></p>'
-                         + '            <h4>店铺地址：</h4>'
+                         + '            <h4>店铺介绍：</h4>'
                          + '            <p>' + value.description + '</span></p>'
+                         + '            <p>店铺地址：' + value.address + '</span></p>'
                          + '        </div>'
                          + '    </a>'
                          + '</li>';
@@ -892,6 +893,7 @@ var toGetAccountDetails = function() {
         }
 	};
 	$.ajax(settings).done(function(data) {
+		console.log(data)
 		$('#userName').val(data.userInfo.userName);
 		$('#cellPhone').val(data.userInfo.cellPhone);
 		$('#email').val(data.userInfo.email);
@@ -1411,13 +1413,6 @@ $('#orderList').on('click', '.cancel-order', function() {
 		$li.remove();
 	});
 });
-
-$('#payOrder').click(function() {
-	var data = {
-		orderSeqNo: $('#sequenceNo').val()
-	};
-	toDoAjax(data, 'PUT', apiUrl + 'Market/Orders/Payment/' + $('#sequenceNo').val() + '?userId=' + userId, payOrdrSuccess, null);
-})
 
 var toGetOrderDetails = function() {
 	var seqNo = toGetParameter('sequenceNo');
