@@ -893,7 +893,9 @@ var toGetAccountDetails = function() {
         }
 	};
 	$.ajax(settings).done(function(data) {
-		console.log(data)
+		if (data.userInfo.cellPhoneVerified) {
+			$('#cellPhone').attr('data-verify', 'true');
+		}
 		$('#userName').val(data.userInfo.userName);
 		$('#cellPhone').val(data.userInfo.cellPhone);
 		$('#email').val(data.userInfo.email);
@@ -909,7 +911,6 @@ var toGetAccountDetails = function() {
 		$('#favoriteProduct').html(data.favorites.length - favoriteShop);
 		var accountAddressHtml = '';
 		$.each(data.address, function(index, value) {
-			console.log(value)
 			accountAddressHtml += '<div class="line">'
                                 + '    <em class="address">地址' + index + '</em>'
                                 + '    <span class="address-details">' + value.contact + '&nbsp;&nbsp;' + value.address + '&nbsp;&nbsp;' + value.phone + '</span>'
@@ -936,7 +937,89 @@ var toUpdateAccountInfo = function(inputId) {
         }
 	};
 	$.ajax(settings).done(function(data) {
+		console.log(data)
 	});
+};
+
+var sendVerifyCodeSuccess = function() {
+	alertMsg('验证码已发送!');
+};
+
+var toSendVerifyCode = function(phoneNo) {
+	toDoAjax(null, 'PUT', apiUrl + 'Auth/Verify/Sms/' + phoneNo, sendVerifyCodeSuccess, null);
+};
+
+var verifyUpdateSuccess = function(data) {
+	if (data.statusCode == '200') {
+		window.location.href = './index.html';
+	} else {
+		alertMsg(data.message);
+	}
+};
+
+var toUpdateVerifyInfo = function(value) {
+	var data = {
+		userId: userId,
+		verifyCode: value.verifyCode,
+		CellPhoneVerified: value.cellPhoneVerified
+	};
+	data[value.category] = value.verifyContent;
+	toDoAjax(data, 'POST', apiUrl + 'Basis/user/' + userId, verifyUpdateSuccess, null);
+};
+
+var toUnbindAndBind = function() {
+	var $verifyGroup = $('.verify-group.old');
+	var verifyArr = toGetVerifyData($verifyGroup);
+	var updateData = verifyArr[1];
+
+	var data = {
+		userId: userId,
+		verifyCode: updateData.verifyCode,
+		CellPhoneVerified: false,
+		cellPhone: updateData.verifyContent
+	};
+
+	var settings = {
+		url: apiUrl + 'Basis/user/' + userId,
+		type: 'POST',
+		dataType: 'json',
+		cache: false,
+		data: data
+	};
+	$.ajax(settings).done(function(data) {
+		if (data.statusCode == '200') {
+			var $verifyGroup = $('.verify-group.new');
+			var verifyArr = toGetVerifyData($verifyGroup);
+			var updateData = verifyArr[1];
+			updateData.category = 'cellPhone';
+			updateData.cellPhoneVerified = true;
+			toUpdateVerifyInfo(updateData);
+		} else {
+			alertMsg(data.message);
+			return;
+		}
+	});
+};
+
+var checkVerifyCodeSuccess = function(result, data) {
+	if (result.statusCode == '200') {
+		if (data.default) {
+			toUpdateVerifyInfo(data);
+		} else {
+			if (data.cellPhoneVerified) {
+				toUnbindAndBind();
+			} else {
+				$('.phone01').hide();
+				$('.phone02').show();
+			}
+		}
+	} else {
+		alertMsg(result.message);
+	}
+};
+
+var toCheckVerifyCode = function(verify, callBackData) {
+	toDoAjax(null, 'POST', apiUrl + '/Auth/Verify/Sms/' + verify.phoneNo + '/' + verify.verifyCode, checkVerifyCodeSuccess, callBackData);
 };
 
 $('.editor-user-info').click(function() {
@@ -950,21 +1033,63 @@ $('.editor-user-info').click(function() {
 	}
 });
 
+var toGetVerifyData = function($verifyGroup) {
+	var $editorIpt = $verifyGroup.find('.editor-ipt');
+	var $verifyIpt = $verifyGroup.find('.verify-ipt');
+	var verifyArr = [];
+	var verifyData = {
+		phoneNo: $editorIpt.val(),
+		verifyCode: $verifyIpt.val()
+	};
+	var updateData = {
+		verifyContent: $editorIpt.val(),
+		verifyCode: $verifyIpt.val(),
+	};
+	verifyArr.push(verifyData, updateData);
+	return verifyArr;
+}
+
 $('.editor-user-code').click(function() {
+	var $verifyGroup = $(this).parents('.verify-group')
+	var $editorIpt = $verifyGroup.find('.editor-ipt');
+	var $verifyIpt = $verifyGroup.find('.verify-ipt');
+	var $verification = $verifyGroup.find('.verification');
+	if ($editorIpt.val() && $editorIpt.attr('data-verify') == 'true') {
+		window.location.href = 'changePhoneNo.html';
+	}
 	if ($(this).attr('data-status') == '0') {
-	    $(this).siblings('input').removeAttr('readOnly');
+	    $editorIpt.removeAttr('readOnly');
 	    $(this).addClass('active').attr('data-status', '1');
-	    $(this).siblings('.verification').slideDown();
+	    $verification.slideDown();
 	} else {
-		toUpdateAccountInfo($(this).siblings('input').attr('id'));
-	    $(this).siblings('input').attr('readOnly', 'readOnly');
+		if(!$verifyIpt.val()) {
+			alertMsg('请输入验证码');
+			return false;
+		}
+		if ($(this).hasClass('phone')) {
+			var verifyArr = toGetVerifyData($verifyGroup);
+			var data = verifyArr[0];
+			var updateData = verifyArr[1];
+			updateData.default = true;
+			updateData.category = 'cellPhone';
+			updateData.cellPhoneVerified = false;
+			toCheckVerifyCode(data, updateData);
+		}
+
+	    $editorIpt.attr('readOnly', 'readOnly');
 	    $(this).removeClass('active').attr('data-status', '0');
+	    $(this).siblings('.verification').slideUp();
 	}
 });
 
 $('.verify-group .editor-ipt').keyup(function() {
 	if ($(this).val().length == 11) {
-		$(this).parents('.verify-group').find('.verify-btn').addClass('active');
+		var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		if (phoneReg.test($(this).val())) {
+			$(this).parents('.verify-group').find('.verify-btn').addClass('active');
+		} else {
+			alertMsg('手机号格式错误!');
+		}
 	} else {
 		$(this).parents('.verify-group').find('.verify-btn').removeClass('active');
 	}
@@ -972,10 +1097,78 @@ $('.verify-group .editor-ipt').keyup(function() {
 
 $('.verify-group .verify-ipt').focus(function() {
 	var $editorIpt = $(this).parents('.verify-group').find('.editor-ipt');
-	if ($editorIpt.val().length == 11) {
+	if ($editorIpt.val().length == 11 && !$(this).siblings('.verify-btn').hasClass('active')) {
 		$(this).siblings('.verify-btn').addClass('active');
 	}
 });
+
+$('.verification').on('click', '.active', function() {
+	var lastSecond = 59;
+	var $this = $(this);
+	$this.removeClass('active').html(lastSecond + '秒后可再次获取');
+	var countDown = setInterval(function(){
+		lastSecond--;
+		$this.html(lastSecond + '秒后可再次获取');
+		if (lastSecond == 0) {
+			clearInterval(countDown);
+			$this.html('获取验证码').addClass('active');
+		}
+	}, 1000);
+	toSendVerifyCode($(this).parents('.verify-group').find('.editor-ipt').val());
+});
+
+$('#verifyOld').click(function() {
+	var $verifyGroup = $('.verify-group.old');
+	var verifyArr = toGetVerifyData($verifyGroup);
+	var data = verifyArr[0];
+	var updateData = verifyArr[1];
+	updateData.category = 'cellPhone';
+	updateData.default = false;
+	updateData.cellPhoneVerified = false;
+
+	if(!$verifyGroup.find('.verify-ipt').val()) {
+		alertMsg('请输入验证码');
+		return false;
+	}
+
+	toCheckVerifyCode(data, updateData);
+});
+
+$('#verifyNew').click(function() {
+	var $verifyGroup = $('.verify-group.new');
+	var verifyArr = toGetVerifyData($verifyGroup);
+	var data = verifyArr[0];
+	var updateData = verifyArr[1];
+	updateData.category = 'cellPhone';
+	updateData.default = false;
+	updateData.cellPhoneVerified = true;
+
+	if(!$verifyGroup.find('.verify-ipt').val()) {
+		alertMsg('请输入验证码');
+		return false;
+	}
+	toCheckVerifyCode(data, updateData);
+});
+
+var toGetPhoneNo = function() {
+	var settings = {
+		url: apiUrl + 'Basis/user/' + userId,
+		type: 'GET',
+		cache: false,
+		dataType: 'json',
+		data: {
+			opt: 1 + 2 + 32
+		},
+        beforeSend: function(xhr) {
+        	toSetHeaders(xhr);
+        }
+	};
+	$.ajax(settings).done(function(data) {
+		var oldPhoneNo = data.userInfo.cellPhone;
+		$('#compactPhone').val(oldPhoneNo.substr(0, 3) + '****' + oldPhoneNo.substr(-4));
+		$('#complexPhone').val(oldPhoneNo);
+	});
+};
 
 var toGetFavoriteList = function(status) {
 	var settings = {
@@ -1340,7 +1533,6 @@ var toGetOrder = function(orderStatus) {
 		var orderListHtml = '';
 		$.each(data, function(index, value) {
 			var productHtml = '';
-			var amount = 0;
 			$.each(value.details, function(i, v) {
 				productHtml += '<div class="list-sty04">'
                              + '    <img src="' + imgUrl + v.thumbImgFileId + '" alt="">'
@@ -1350,13 +1542,12 @@ var toGetOrder = function(orderStatus) {
                              + '    <h4><i>¥</i>' + v.salePrice.toFixed(2) + '</h4>'
                              + '    <p>数量：' + v.quantity + '</p>'
                              + '</div>'
-                amount += v.amount
 			});
 			var btnHtml = '';
 			var orderDetailsUrl = '../../pay/orderDetails.html';
 			switch(orderStatus) {
 				case 1: btnHtml = '<h4><a class="cancel-order native" href="javascript:;">取消订单</a><a class="pay-order" href="javascript:;">付款</a></h4>'; orderDetailsUrl = '../pay/orderDetails.html'; break;
-				case 5: btnHtml = '<h4><a href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a></h4>'; break;
+				case 5: btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a class="confirm-receive" href="javascript:;">确认收货</a></h4>'; break;
 				case 6: btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a href="orderComment.html?sequenceNo=' + value.order.sequenceNo + '">评价</a></h4>'; break;
 			}
 			orderListHtml += '<li class="list-sty05" data-href="' + value.order.sequenceNo + '">'
@@ -1368,7 +1559,7 @@ var toGetOrder = function(orderStatus) {
                            + '    <div onclick="javascript:window.location.href=\'' + orderDetailsUrl + '?sequenceNo=' + value.order.sequenceNo + '\'">'
                            + productHtml
                            + '    </div>'
-                           + '    <p>共' + value.details.length + '件，合计：<em>¥<b>' + amount.toFixed(2) + '</b></em>(包含快递)</p>'
+                           + '    <p>共' + value.details.length + '件，合计：<em>¥<b>' + value.order.amount.toFixed(2) + '</b></em>(包含快递)</p>'
                            + btnHtml
                            + '</li>';
 		});
@@ -1420,22 +1611,71 @@ var toGetLogisticsInfo = function() {
 
 $('#orderList').on('click', '.cancel-order', function() {
 	var $li = $(this).parents('li');
-	var settings = {
-		url: apiUrl + 'Market/Orders/' + $li.attr('data-href'),
-		type: 'DELETE',
-		dataType: 'json',
-		cache: false,
-		data: {
-			SeqNo: $li.attr('data-href')
-		},
-        beforeSend: function(xhr) {
-        	toSetHeaders(xhr);
-        }
+	layer.open({
+	    content: '确认删除',
+	    btn: ['删除', '放弃'],
+	    yes: function(index) {
+		    var settings = {
+				url: apiUrl + 'Market/Orders/' + $li.attr('data-href'),
+				type: 'DELETE',
+				dataType: 'json',
+				cache: false,
+				data: {
+					SeqNo: $li.attr('data-href')
+				},
+		        beforeSend: function(xhr) {
+		        	toSetHeaders(xhr);
+		        }
+			};
+			$.ajax(settings).done(function(data) {
+				layer.close(index);
+				alertMsg('订单取消成功');
+				$li.remove();
+			});	
+	    }
+  	});
+});
+
+var confirmReceiveSuccess = function(data, value) {
+	// if (data.statusCode == '200') {
+		layer.close(value.index);
+		alertMsg('已确认收货');
+		value.element.remove();
+	// }
+};
+
+var toConfirmReceive = function(seqNo) {
+	var data = {
+		sequenceNo: seqNo,
+		userId: userId,
+		state: 6
 	};
-	$.ajax(settings).done(function(data) {
-		alertMsg('订单取消成功');
-		$li.remove();
-	});
+	var callBackData = {
+		element: $li,
+		index: index
+	};
+	toDoAjax(data, 'POST', apiUrl + 'Market/Orders/' + seqNo + '/' + userId, confirmReceiveSuccess, callBackData)    
+};
+
+$('#orderList').on('click', '.confirm-receive', function() {
+	var $li = $(this).parents('li');
+	layer.open({
+	    content: '确认收货',
+	    btn: ['确认', '关闭'],
+	    yes: function(index) {
+	    	toConfirmReceive($li.attr('data-href'));
+	    }
+  	});
+});
+
+$('#confirmReceive').click(function() {
+	layer.open({
+	    content: '确认收货',
+	    btn: ['确认', '关闭'],
+	    yes: function(index) {
+	    	toConfirmReceive($('#sequenceNo').val());
+	    }
+  	});
 });
 
 var toGetOrderDetails = function() {
@@ -1616,20 +1856,6 @@ $('#confirmComment').click(function() {
 	});
 	data.products = products;
 	toDoAjax(data, 'PUT', apiUrl + 'Market/Appraisal/' + orderNo, commentSuccess, null)
-});
-
-$('.verification').on('click', '.active', function() {
-	var lastSecond = 59;
-	var $this = $(this);
-	$this.removeClass('active').html(lastSecond + '秒后可再次获取');
-	var countDown = setInterval(function(){
-		lastSecond--;
-		$this.html(lastSecond + '秒后可再次获取');
-		if (lastSecond == 0) {
-			clearInterval(countDown);
-			$this.html('获取验证码').addClass('active');
-		}
-	}, 1000);
 });
 
 var toGetProductComment = function(productNo) {

@@ -94,10 +94,6 @@ a {
   text-decoration: none;
   color: #666;
 }
-a:hover,
-a:visited {
-  color: #666;
-}
 button,
 input,
 optgroup,
@@ -344,6 +340,17 @@ div {
   100% {
     top: 110%;
   }
+}
+.button-sty01 {
+  display: block;
+  width: 90%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  background-color: #fd8201;
+  border-radius: 2px;
 }
 .icon-superfine {
   display: inline-block;
