@@ -485,6 +485,11 @@ div {
   border: 1px solid #48cfad;
   border-radius: 4px;
 }
+.icon-plane.unable,
+.icon-comment.unable,
+.icon-headset.unable {
+  border-color: #ececec;
+}
 .icon-plane {
   background: url(../img/icon-plane.png) no-repeat center;
   background-size: 16px;
@@ -495,6 +500,10 @@ div {
 }
 .icon-headset {
   background: url(../img/icon-headset.png) no-repeat center;
+  background-size: 16px;
+}
+.icon-headset.unable {
+  background: url(../img/icon-headset-unable.png) no-repeat center;
   background-size: 16px;
 }
 .icon-load {
@@ -1075,7 +1084,7 @@ div {
   font-weight: normal;
 }
 .list-sty05 {
-  margin-bottom: 1px;
+  margin-bottom: 4px;
   background-color: #fff;
 }
 .list-sty05 > h3 {
@@ -1090,6 +1099,11 @@ div {
   position: absolute;
   top: 5px;
   left: 10px;
+}
+.list-sty05 > h3 > b {
+  position: absolute;
+  top: 8px;
+  margin-left: 10px;
 }
 .list-sty05 > p {
   padding-right: 10px;
@@ -1556,6 +1570,7 @@ div {
 }
 .footer-sty07 {
   background-color: #fff;
+  text-align: center;
 }
 .footer-sty07 > a {
   display: block;

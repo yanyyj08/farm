@@ -74,24 +74,24 @@
                     <li>
                         <a href="../../pay/waitPayment.html">
                             <i class="icon-plane"></i>
-                            <p>待付款</p>
+                            <p>待付款<em id="unpaidCount"></em></p>
                         </a>
                     </li>
                     <li>
                         <a href="waitReceive.html">
                             <i class="icon-plane"></i>
-                            <p>待收货</p>
+                            <p>待收货<em id="waitReceive"></em></p>
                         </a>
                     </li>
                     <li>
                         <a href="waitComment.html">
                             <i class="icon-comment"></i>
-                            <p>待评价</p>
+                            <p>待评价<em id="signedCount"></em></p>
                         </a>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-headset"></i>
+                            <i class="icon-headset unable"></i>
                             <p>售后/退货</p>
                         </a>
                     </li>
@@ -128,6 +128,7 @@
     <script src="../../js/pages.js?v=2017020201"></script>
     <script>
         toGetAccountDetails();
+        toGetOrderCount();
     </script>
 </body>
 

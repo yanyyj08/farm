@@ -148,7 +148,7 @@ $('#changeOrderTimeRange').on('click', 'li', function() {
 	var today = new Date();
 	var lastWeek = new Date(today.getTime() - 6 * 3600 * 24 * 1000);
 	var lastMonth = new Date(new Date(today).setMonth(today.getMonth() - 1));
-	var lastThreeMonth = new Date(new Date(today).setMonth(today.getMonth() - 4));
+	var lastThreeMonth = new Date(new Date(today).setMonth(today.getMonth() - 3));
 	switch($(this).index()) {
 		case 0: toGetVendorOrderDetails(today);
         		break;
@@ -199,6 +199,7 @@ var toGetAllOrders = function(data) {
 
 var toGetVendorOrderList = function(orderCode) {
 	var state = '';
+	var scoreState;
 	var toGetBtnHtml = toGetAllOrders;
 	var dateFrom = toGetParameter('dateFrom');
 	var dateTo = toGetParameter('dateTo');
@@ -206,8 +207,8 @@ var toGetVendorOrderList = function(orderCode) {
 		case 'waitPaid': state = 1; toGetBtnHtml = toGetWaitPaidOrders; $('#orderTitle').html('待付款订单'); break;
 		case 'waitDeliver': state = 3; toGetBtnHtml = toGetWaitDeliverOrders; $('#orderTitle').html('待发货订单'); break;
 		case 'waitReceive': state = 5; toGetBtnHtml = toGetWaitReceiveOrders; $('#orderTitle').html('待收货订单'); break;
-		case 'waitComment': state = 6; toGetBtnHtml = toGetWaitCommentOrders; $('#orderTitle').html('待评价订单'); break;
-		case 'closed': state = 7; toGetBtnHtml = toGetClosedOrders; $('#orderTitle').html('已完成订单'); break;
+		case 'waitComment': state = '6,7'; scoreState = 0; toGetBtnHtml = toGetWaitCommentOrders; $('#orderTitle').html('已签收/待评价订单'); break;
+		case 'closed': state = '6,7'; scoreState = 1; toGetBtnHtml = toGetClosedOrders; $('#orderTitle').html('已完成订单'); break;
 		case 'all': state = ''; toGetBtnHtml = toGetAllOrders; $('#orderTitle').html('所有订单'); break;
 		case 'paid': state = ''; toGetBtnHtml = toGetAllOrders; $('#orderTitle').html('成交订单'); break; // TODO: paidState
 	}
@@ -221,8 +222,10 @@ var toGetVendorOrderList = function(orderCode) {
 			dateTo: dateTo
 		}
 	};
+	if (scoreState !== null) {
+		settings.data.ScoreState = scoreState;
+	}
 	$.ajax(settings).done(function(data) {
-		console.log(data)
 		var orderListHtml = '';
 		$.each(data, function(index, value) {
 			var productHtml = '';
@@ -232,7 +235,7 @@ var toGetVendorOrderList = function(orderCode) {
 			orderListHtml += '<li class="list-sty06" data-sequenceno="' + value.order.sequenceNo + '">'
 		             	   + '	 <div class="l01">'
 		             	   + '	 <p><em>订单号：' + value.order.orderNo + '</em><span></span></p>'
-		             	   + '    <p>下单时间：' + new Date(value.order.tradeDate).Format(TIMEFORMATCOMPLETE) + '</p>'
+		             	   + '    <p>下单时间：' + new Date(value.order.tradeDate).Format(TIMEFORMAT) + '</p>'
 		             	   + productHtml
 		             	   + '    </div>'
 		             	   + '    <div class="l02">'

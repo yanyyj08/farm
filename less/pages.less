@@ -289,13 +289,14 @@ body { background: @body-bg; }
 			&:first-child { border: none; }
 			> a { display: block; width: 100%; height: 100%; text-align: center;
 				> i { display: block; margin: 0 auto; }
-				> p { display: block; margin-top: 4px; height: 12px; line-height: 12px; font-size: 12px; }
+				> p { display: block; margin-top: 4px; height: 12px; line-height: 12px; font-size: 12px;
+					> em { color: @base-color; }
+				}
 			}
 		}
 	}
 	.tab > li > a { font-size: 12px; }
 }
-
 
 .address-manage {
 	> li { margin-top: 4px; background-color: #fff;

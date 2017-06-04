@@ -300,6 +300,7 @@ var toGetCategoryList = function() {
 
 $('#provinceList').on('click', 'li', function() {
 	$(this).addClass('active').siblings().removeClass('active');
+	$('#selectedCity').html($(this).html());
 	toSetIndexListParameter($('#productList'), [{name: 'data-regionid', value: $(this).attr('data-id')}]);
 	toSetIndexListParameter($('#orgList'), [{name: 'data-regionid', value: $(this).attr('data-id')}]);
 	toGetProductList();
@@ -560,10 +561,7 @@ var toCancelCollect = function(productNo, orgNo, element) {
         }
 	};
 	$.ajax(settings).done(function(data) {
-		alertMsg('取消收藏');
-		if (element) {
-			element.remove();
-		}
+		window.location.reload();
 	});
 };
 
@@ -921,6 +919,29 @@ var toGetAccountDetails = function() {
 	});
 };
 
+var toGetOrderCount = function() {
+	var settings = {
+		url: apiUrl + 'Consumer/orderSummary/' + userId,
+		type: 'GET',
+		cache: false,
+		dataType: 'json',
+        beforeSend: function(xhr) {
+        	toSetHeaders(xhr);
+        }
+	};
+	$.ajax(settings).done(function(data) {
+		if (data.summary.unPaidCount > 0) {
+			$('#unpaidCount').html('(' + data.summary.unPaidCount + ')');
+		}
+		if (data.summary.deliveringCount + data.summary.paidCount > 0) {
+			$('#waitReceive').html('(' + (data.summary.deliveringCount + data.summary.paidCount) + ')');
+		}
+		if (data.summary.unscoreCount > 0) {
+			$('#signedCount').html('(' + data.summary.unscoreCount + ')');
+		}
+	});
+};
+
 var toUpdateAccountInfo = function(inputId) {
 	var data = {
 		userId: userId
@@ -951,7 +972,10 @@ var toSendVerifyCode = function(phoneNo) {
 
 var verifyUpdateSuccess = function(data) {
 	if (data.statusCode == '200') {
-		window.location.href = './index.html';
+		alertMsg('手机认证成功!')
+		setTimeout(function() {
+			window.location.href = './index.html';
+		}, 2000);
 	} else {
 		alertMsg(data.message);
 	}
@@ -1343,6 +1367,10 @@ var addAddressSuccess = function() {
 };
 
 $('#editorAddress').click(function() {
+	if (!($('#addressDetails').val() && $('#addressContact').val() && $('#addressPhone').val())) {
+		alertMsg('信息不能为空');
+		return false;
+	}
 	if ($('#userMetaNo').val() != '0') {
 		var data = {
 	        userMetaNo: $('#userMetaNo').val(),
@@ -1529,7 +1557,10 @@ var toGetOrder = function(orderStatus) {
         	toSetHeaders(xhr);
         }
 	};
-	$.ajax(settings).done(function(data) {
+	if (orderStatus == '6,7') {
+		settings.data.scoreState = 0;
+	}
+ 	$.ajax(settings).done(function(data) {
 		var orderListHtml = '';
 		$.each(data, function(index, value) {
 			var productHtml = '';
@@ -1547,14 +1578,19 @@ var toGetOrder = function(orderStatus) {
 			var orderDetailsUrl = '../../pay/orderDetails.html';
 			switch(orderStatus) {
 				case 1: btnHtml = '<h4><a class="cancel-order native" href="javascript:;">取消订单</a><a class="pay-order" href="javascript:;">付款</a></h4>'; orderDetailsUrl = '../pay/orderDetails.html'; break;
+				// case '3,5': btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a class="confirm-receive" href="javascript:;">确认收货</a></h4>'; break;
+				case '6,7': btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a href="orderComment.html?sequenceNo=' + value.order.sequenceNo + '">评价</a></h4>'; break;
+			}
+			switch (value.order.state) {
+				case 3: btnHtml = '<h4><a class="urge-order" href="javascript:;">催发货</a></h4>'; break;
 				case 5: btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a class="confirm-receive" href="javascript:;">确认收货</a></h4>'; break;
-				case 6: btnHtml = '<h4><a class="native" href="logistics.html?sequenceNo=' + value.order.sequenceNo + '">查看物流</a><a href="orderComment.html?sequenceNo=' + value.order.sequenceNo + '">评价</a></h4>'; break;
 			}
 			orderListHtml += '<li class="list-sty05" data-href="' + value.order.sequenceNo + '">'
-                           + '    <h3>'
+                           + '    <h3 onclick="javascript:window.location.href=\'' + orderDetailsUrl + '?sequenceNo=' + value.order.sequenceNo + '\'">'
                            // + '        <img src="../../img/temporary-logo.png" alt="">'
                            + '	  	  <i class="icon-shop"></i>'
                            + value.order.orgName
+                           + '	  	  <b class="icon-arrow-to"></b>'
                            + '    </h3>'
                            + '    <div onclick="javascript:window.location.href=\'' + orderDetailsUrl + '?sequenceNo=' + value.order.sequenceNo + '\'">'
                            + productHtml
@@ -1636,44 +1672,64 @@ $('#orderList').on('click', '.cancel-order', function() {
   	});
 });
 
+$('#orderList').on('click', '.urge-order', function() {
+	var $li = $(this).parents('li');
+	var settings = {
+		url: apiUrl + 'Consumer/urgeDelive/' + $li.attr('data-href') + '/' + userId,
+		type: 'POST',
+		dataType: 'json',
+		cache: false
+	};
+	$.ajax(settings).done(function(data) {
+		if (data.statusCode == '200') {
+			alertMsg(data.message);
+		} else {
+			alertMsg(data.message);
+		}
+	});
+});
+
 var confirmReceiveSuccess = function(data, value) {
-	// if (data.statusCode == '200') {
+	if (data.statusCode == '200') {
 		layer.close(value.index);
 		alertMsg('已确认收货');
 		value.element.remove();
-	// }
-};
-
-var toConfirmReceive = function(seqNo) {
-	var data = {
-		sequenceNo: seqNo,
-		userId: userId,
-		state: 6
-	};
-	var callBackData = {
-		element: $li,
-		index: index
-	};
-	toDoAjax(data, 'POST', apiUrl + 'Market/Orders/' + seqNo + '/' + userId, confirmReceiveSuccess, callBackData)    
+	}
 };
 
 $('#orderList').on('click', '.confirm-receive', function() {
 	var $li = $(this).parents('li');
+	var seqNo = $li.attr('data-href')
 	layer.open({
 	    content: '确认收货',
 	    btn: ['确认', '关闭'],
 	    yes: function(index) {
-	    	toConfirmReceive($li.attr('data-href'));
+	    	var data = {
+				sequenceNo: seqNo,
+				userId: userId,
+				state: 6
+			};
+			var callBackData = {
+				element: $li,
+				index: index
+			};
+			toDoAjax(data, 'POST', apiUrl + 'Market/Orders/' + seqNo + '/' + userId, confirmReceiveSuccess, callBackData);
 	    }
   	});
 });
 
 $('#confirmReceive').click(function() {
+	var seqNo = $('#sequenceNo').val();
 	layer.open({
 	    content: '确认收货',
 	    btn: ['确认', '关闭'],
 	    yes: function(index) {
-	    	toConfirmReceive($('#sequenceNo').val());
+	    	var data = {
+				sequenceNo: seqNo,
+				userId: userId,
+				state: 6
+			};
+			toDoAjax(data, 'POST', apiUrl + 'Market/Orders/' + seqNo + '/' + userId, reload, null);
 	    }
   	});
 });
@@ -1696,6 +1752,9 @@ var toGetOrderDetails = function() {
 				    break;
 		    case 2: $('#expressTime').parents('div:eq(0)').hide();
 				    break;
+			case 3: $('#urgeFooter').show();
+					$('#checklogistics > a').attr('href', '../Views/User/logistics.html?sequenceNo=' + seqNo);
+					break;
 			case 5: $('#receiveFooter').show();
 					$('#checklogistics > a').attr('href', '../Views/User/logistics.html?sequenceNo=' + seqNo);
 					break;
@@ -1752,6 +1811,22 @@ $('#cancelOrder').click(function() {
 		setTimeout(function() {
 			window.reload();
 		}, 2000);
+	});
+});
+
+$('#urgeOrder').click(function() {
+	var settings = {
+		url: apiUrl + 'Consumer/urgeDelive/' + toGetParameter('sequenceNo') + '/' + userId,
+		type: 'POST',
+		dataType: 'json',
+		cache: false
+	};
+	$.ajax(settings).done(function(data) {
+		if (data.statusCode == '200') {
+			alertMsg(data.message);
+		} else {
+			alertMsg(data.message);
+		}
 	});
 });
 
