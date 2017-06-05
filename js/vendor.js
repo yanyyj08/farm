@@ -498,8 +498,3 @@ $('#vendorList').on('click', 'li', function() {
 	localStorage.orgName = $(this).attr('data-orgname');
 	window.location.href = 'index.html';
 });
-
-
-
-
-
