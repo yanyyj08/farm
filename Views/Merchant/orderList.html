@@ -68,7 +68,7 @@
                 <li class="confirm">确认</li>
             </ul>
         </div>
-        <div class="modal modal-sty01" id="confirmDeliverModal">
+        <div class="modal modal-sty01" id="confirmDeliverModal" style="display: none;">
             <div class="modal-content">
                 <div>
                     <select id="expressCompanyNo">
@@ -101,22 +101,17 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script>
     var settings = {
-        // url: apiUrl + 'Wechat/jsapi/getsignature?url=http://api.guagua365.net/Views/merchant/orderList.html?orderCode=waitPaid',
-        url: apiUrl + 'Wechat/jsapi/getsignature?url=' + location.href,
+        url: apiUrl + 'Wechat/jsapi/getsignature?url=' + encodeURIComponent(location.href),
         type: 'GET',
         dataType: 'json',
         cache: false
     };
     $.ajax(settings).done(function(data) {
-        alert(data.appId);
-        alert(data.timestamp);
-        alert(data.nonceStr);
-        alert(data.signature);
         wx.config({
-            debug: true,
-            appId: data.appId,
+            debug: false,
+            appId: data.appid,
             timestamp: data.timestamp,
-            nonceStr: data.nonceStr,
+            nonceStr: data.noncestr,
             signature: data.signature,
             jsApiList: [
                 'checkJsApi',
@@ -144,7 +139,12 @@
                 needResult: 1,
                 desc: 'scanQRCode desc',
                 success: function(res) {
-                    alert(JSON.stringify(res));
+                    var code = res.resultStr;
+                    if (code.indexOf('CODE_128') > -1) {
+                        $('#expressNo').val(code.substr(code.indexOf(',') + 1));
+                    } else {
+                        alertMsg('请扫描正确条形码!');
+                    }
                 }
             });
         };
